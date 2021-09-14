@@ -7,6 +7,7 @@ using DoctorWho.Db.Access;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Repositories;
+using DoctorWho.Web.Access;
 using DoctorWho.Web.Locators;
 using DoctorWho.Web.Models;
 using DoctorWho.Web.Validators;
@@ -106,6 +107,8 @@ namespace DoctorWho.Web
             services.AddScoped<EFRepository<Episode, string,DoctorWhoCoreDbContext>, EpisodeEfRepository<string>>();
             services.AddScoped<EFRepository<Author, string,DoctorWhoCoreDbContext>, AuthorEfRepository<string>>();
 
+            services.AddScoped<AccessManager>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "DoctorWho.Web", Version = "v1"});
