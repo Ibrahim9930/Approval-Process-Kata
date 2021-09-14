@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoctorWho.Db;
+using DoctorWho.Db.Access;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Repositories;
@@ -88,16 +89,19 @@ namespace DoctorWho.Web
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB"));
             });
+            services.AddSingleton<ILocatorTranslator<AccessRequest, string>, AccessRequestLocator>();
+            services.AddSingleton<ILocatorPredicate<AccessRequest, string>, AccessRequestLocator>();
             services.AddSingleton<ILocatorTranslator<Doctor, int?>, DoctorLocator>();
             services.AddSingleton<ILocatorPredicate<Doctor, int?>, DoctorLocator>();
             services.AddSingleton<ILocatorTranslator<Episode, string>, EpisodeLocator>();
             services.AddSingleton<ILocatorPredicate<Episode, string>, EpisodeLocator>();
             services.AddSingleton<ILocatorTranslator<Author, string>, AuthorLocator>();
             services.AddSingleton<ILocatorPredicate<Author, string>, AuthorLocator>();
-
+            
             services.AddSingleton<ILocatorTranslator<DoctorForCreationWithPostDto, int?>, DoctorPostDtoLocator>();
             services.AddSingleton<ILocatorTranslator<EpisodeForCreationWithPostDto, string>, EpisodePostDtoLocator>();
 
+            services.AddScoped<EFRepository<AccessRequest, string,AccessRequestDbContext>, AccessRequestEfRepository<string>>();
             services.AddScoped<EFRepository<Doctor, int?,DoctorWhoCoreDbContext>, DoctorEfRepository<int?>>();
             services.AddScoped<EFRepository<Episode, string,DoctorWhoCoreDbContext>, EpisodeEfRepository<string>>();
             services.AddScoped<EFRepository<Author, string,DoctorWhoCoreDbContext>, AuthorEfRepository<string>>();
