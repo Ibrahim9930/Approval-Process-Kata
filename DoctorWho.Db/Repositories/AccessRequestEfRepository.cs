@@ -4,10 +4,10 @@ using DoctorWho.Db.Interfaces;
 
 namespace DoctorWho.Db.Repositories
 {
-    public class AccessRequestEfRepository : EFRepository<AccessRequest, string,AccessRequestDbContext>
+    public class AccessRequestEfRepository<TLocator> : EFRepository<AccessRequest, TLocator,AccessRequestDbContext>
     {
         public AccessRequestEfRepository(AccessRequestDbContext context,
-            ILocatorPredicate<AccessRequest, string> locatorPredicate) : base(context, locatorPredicate)
+            ILocatorPredicate<AccessRequest, TLocator> locatorPredicate) : base(context, locatorPredicate)
         {
         }
 

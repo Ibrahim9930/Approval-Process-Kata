@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Db.Repositories
 {
-    public class EpisodeEfRepository<TLocator> : EFRepository<Episode, TLocator>
+    public class EpisodeEfRepository<TLocator> : EFRepository<Episode, TLocator,DoctorWhoCoreDbContext>
     {
         public EpisodeEfRepository(DoctorWhoCoreDbContext context,
             ILocatorPredicate<Episode, TLocator> locatorPredicate) : base(context, locatorPredicate)
