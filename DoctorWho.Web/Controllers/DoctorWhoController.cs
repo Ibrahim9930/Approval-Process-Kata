@@ -4,20 +4,21 @@ using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Repositories;
 using DoctorWho.Web.Locators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Web.Controllers
 {
     [ApiController]
-    public class DoctorWhoController<TEntity, TLocator> : Controller
-        where TEntity : class
+    public class DoctorWhoController<TEntity, TLocator,TDbContext> : Controller
+        where TEntity : class where TDbContext : DbContext
     {
-        protected EFRepository<TEntity, TLocator> Repository { get; }
+        protected EFRepository<TEntity, TLocator,TDbContext> Repository { get; }
         private IMapper Mapper { get; }
         private TEntity CachedEntity { get; set; }
 
         protected ILocatorTranslator<TEntity, TLocator> LocatorTranslator { get; }
 
-        public DoctorWhoController(EFRepository<TEntity, TLocator> repository, IMapper mapper,
+        public DoctorWhoController(EFRepository<TEntity, TLocator,TDbContext> repository, IMapper mapper,
             ILocatorTranslator<TEntity, TLocator> locatorTranslator)
         {
             Repository = repository;

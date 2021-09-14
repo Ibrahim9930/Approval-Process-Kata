@@ -1,4 +1,5 @@
 using AutoMapper;
+using DoctorWho.Db;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Repositories;
 using DoctorWho.Web.Locators;
@@ -8,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorWho.Web.Controllers
 {
     [Route("api/authors")]
-    public class AuthorController : DoctorWhoController<Author, string>
+    public class AuthorController : DoctorWhoController<Author, string,DoctorWhoCoreDbContext>
     {
-        public AuthorController(EFRepository<Author, string> repository, IMapper mapper,
+        public AuthorController(EFRepository<Author, string,DoctorWhoCoreDbContext> repository, IMapper mapper,
             ILocatorTranslator<Author, string> locatorTranslator) : base(repository, mapper, locatorTranslator)
         {
         }

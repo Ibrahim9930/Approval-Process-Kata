@@ -98,9 +98,9 @@ namespace DoctorWho.Web
             services.AddSingleton<ILocatorTranslator<DoctorForCreationWithPostDto, int?>, DoctorPostDtoLocator>();
             services.AddSingleton<ILocatorTranslator<EpisodeForCreationWithPostDto, string>, EpisodePostDtoLocator>();
 
-            services.AddScoped<EFRepository<Doctor, int?>, DoctorEfRepository<int?>>();
-            services.AddScoped<EFRepository<Episode, string>, EpisodeEfRepository<string>>();
-            services.AddScoped<EFRepository<Author, string>, AuthorEfRepository<string>>();
+            services.AddScoped<EFRepository<Doctor, int?,DoctorWhoCoreDbContext>, DoctorEfRepository<int?>>();
+            services.AddScoped<EFRepository<Episode, string,DoctorWhoCoreDbContext>, EpisodeEfRepository<string>>();
+            services.AddScoped<EFRepository<Author, string,DoctorWhoCoreDbContext>, AuthorEfRepository<string>>();
 
             services.AddSwaggerGen(c =>
             {

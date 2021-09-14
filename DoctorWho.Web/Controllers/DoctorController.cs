@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using DoctorWho.Db;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Repositories;
 using DoctorWho.Web.Locators;
@@ -10,11 +11,11 @@ namespace DoctorWho.Web.Controllers
 {
     [ApiController]
     [Route("api/doctors")]
-    public class DoctorController : DoctorWhoController<Doctor, int?>
+    public class DoctorController : DoctorWhoController<Doctor, int?,DoctorWhoCoreDbContext>
     {
         private ILocatorTranslator<DoctorForCreationWithPostDto, int?> PostInputLocatorTranslator { get; }
 
-        public DoctorController(EFRepository<Doctor, int?> repository, IMapper mapper,
+        public DoctorController(EFRepository<Doctor, int?,DoctorWhoCoreDbContext> repository, IMapper mapper,
             ILocatorTranslator<Doctor, int?> locatorTranslator,
             ILocatorTranslator<DoctorForCreationWithPostDto, int?> postInputLocatorTranslator) : base(repository,
             mapper, locatorTranslator)
