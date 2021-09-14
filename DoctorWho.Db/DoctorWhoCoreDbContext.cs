@@ -33,7 +33,7 @@ namespace DoctorWho.Db
             _entityReader = new FakeDataReaderWriter();
         }
 
-        public DoctorWhoCoreDbContext(DbContextOptions options, IEntityReader entityReader = null) : base(options)
+        public DoctorWhoCoreDbContext(DbContextOptions<DoctorWhoCoreDbContext> options, IEntityReader entityReader = null) : base(options)
         {
             if (entityReader != null)
             {

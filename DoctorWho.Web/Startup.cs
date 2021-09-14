@@ -84,7 +84,10 @@ namespace DoctorWho.Web
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB"));
             });
-
+            services.AddDbContext<AccessRequestDbContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB"));
+            });
             services.AddSingleton<ILocatorTranslator<Doctor, int?>, DoctorLocator>();
             services.AddSingleton<ILocatorPredicate<Doctor, int?>, DoctorLocator>();
             services.AddSingleton<ILocatorTranslator<Episode, string>, EpisodeLocator>();
