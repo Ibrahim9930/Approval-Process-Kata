@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DoctorWho.Db;
 using DoctorWho.Web;
 using DoctorWho.Web.Models;
 using FluentAssertions;
@@ -11,9 +12,9 @@ using Xunit;
 
 namespace DoctorWho.Tests.EpisodeControllerApiTests
 {
-    public class FunctionalApiTests : ApiTests
+    public class FunctionalApiTests : ApiTests<DoctorWhoCoreDbContext>
     {
-        public FunctionalApiTests(InMemDbWebApplicationFactory<Startup> fixture) : base(fixture)
+        public FunctionalApiTests(InMemDbWebApplicationFactory<Startup,DoctorWhoCoreDbContext> fixture) : base(fixture)
         {
         }
 

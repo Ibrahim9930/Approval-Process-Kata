@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+using DoctorWho.Db;
 using DoctorWho.Tests.Utils;
 using DoctorWho.Web;
 using FluentAssertions;
@@ -7,9 +8,9 @@ using Xunit;
 
 namespace DoctorWho.Tests.DoctorControllerApiTests
 {
-    public class DeleteTests : ApiTests
+    public class DeleteTests : ApiTests<DoctorWhoCoreDbContext>
     {
-        public DeleteTests(InMemDbWebApplicationFactory<Startup> fixture) : base(fixture)
+        public DeleteTests(InMemDbWebApplicationFactory<Startup,DoctorWhoCoreDbContext> fixture) : base(fixture)
         {
         }
         

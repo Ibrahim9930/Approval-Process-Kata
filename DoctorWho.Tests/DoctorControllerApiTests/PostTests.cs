@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using DoctorWho.Db;
 using DoctorWho.Tests.Utils;
 using DoctorWho.Web.Models;
 using FluentAssertions;
@@ -11,10 +12,10 @@ using Xunit;
 
 namespace DoctorWho.Tests.DoctorControllerApiTests
 {
-    public class PostTests : ApiTests
+    public class PostTests : ApiTests<DoctorWhoCoreDbContext>
     {
 
-        public PostTests(InMemDbWebApplicationFactory<Web.Startup> fixture) : base(fixture)
+        public PostTests(InMemDbWebApplicationFactory<Web.Startup,DoctorWhoCoreDbContext> fixture) : base(fixture)
         {
         }
 
