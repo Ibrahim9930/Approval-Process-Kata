@@ -19,7 +19,7 @@ namespace DoctorWho.Tests.AuthorControllerApiTests
         public async Task
             PUT_AuthorController_Update_ResourceExists_StatusCode_Should_200StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new AuthorForUpdate()
             {
@@ -36,7 +36,7 @@ namespace DoctorWho.Tests.AuthorControllerApiTests
         public async Task
             PUT_AuthorController_Update_ResourceDoesNotExists_StatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new AuthorForUpdate()
             {

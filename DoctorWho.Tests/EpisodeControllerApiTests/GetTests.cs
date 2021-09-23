@@ -16,12 +16,22 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         {
         }
         
+        [Fact]
+        public async Task GET_EpisodeController_Unauthenticated_StatusCode_Should_401StatusCode()
+        {
+            var client = GetUnauthenticatedClient();
+
+            var response = await client.GetAsync("/api/episodes");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+        
         [Theory]
         [InlineData("/api/episodes")]
         [InlineData("/api/episodes/S01:E02")]
         public async Task GET_EpisodeController_StatusCode_Should_200StatusCode(string uri)
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var response = await client.GetAsync(uri);
 
@@ -31,7 +41,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task GET_EpisodeController_ResourceDoesNotExist_StatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var response = await client.GetAsync("/api/episodes/S20:E20");
 
@@ -41,7 +51,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task GET_EpisodeController_AllEpisodes_ResponseCollection_Should_Has10Elements()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var response = await client.GetAsync("/api/episodes");
             var episodes = await ResponseParser.GetObjectFromResponse<ICollection<EpisodeDto>>(response);
@@ -52,7 +62,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task GET_EpisodeController_Episode_Response_Should_HasNumberSeries1()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var response = await client.GetAsync("/api/episodes/S01:E02");
             var episode = await ResponseParser.GetObjectFromResponse<EpisodeDto>(response);

@@ -21,7 +21,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task OPTIONS_EpisodeController_AddCompanion_EpisodeExists_StatusCode_Should_200StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var content = new CompanionForCreationDto()
             {
@@ -42,7 +42,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task OPTIONS_EpisodeController_AddCompanion_EpisodeDoesNotExists_StatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var content = new CompanionForCreationDto()
             {
@@ -63,7 +63,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task OPTIONS_EpisodeController_AddEnemy_EpisodeExists_StatusCode_Should_200StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var content = new EnemyForCreationDto()
             {
@@ -84,7 +84,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task OPTIONS_EpisodeController_AddEnemy_EpisodeDoesNotExists_StatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var content = new EnemyForCreationDto()
             {

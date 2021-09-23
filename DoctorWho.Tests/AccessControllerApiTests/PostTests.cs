@@ -20,7 +20,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         [Fact]
         public async Task POST_AccessController_AccessRequestWithValidData_StatusCode_Should_201StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new AccessForCreationRequestDto()
             {
@@ -40,7 +40,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         public async Task
             POST_AccessController_AccessRequestWithInvalidData_EndDateBeforeStartDate_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new AccessForCreationRequestDto()
             {
@@ -59,7 +59,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         public async Task
             POST_AccessController_AccessRequestWithInvalidData_NoUserId_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new AccessForCreationRequestDto()
             {
@@ -77,7 +77,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         public async Task
             POSTAccessController_AccessRequestWithInvalidData_AccessLevelUnknown_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new AccessForCreationRequestDto()
             {
