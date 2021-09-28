@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using DoctorWho.Db;
 using DoctorWho.Tests.Utils;
 using DoctorWho.Web;
 using DoctorWho.Web.Models;
@@ -9,9 +10,9 @@ using Xunit;
 
 namespace DoctorWho.Tests.EpisodeControllerApiTests
 {
-    public class PostTests : ApiTests
+    public class PostTests : ApiTests<DoctorWhoCoreDbContext>
     {
-        public PostTests(InMemDbWebApplicationFactory<Startup> fixture) : base(fixture)
+        public PostTests(InMemDbWebApplicationFactory<Startup,DoctorWhoCoreDbContext> fixture) : base(fixture)
         {
         }
         
