@@ -11,45 +11,46 @@ namespace DoctorWho.Web.Access
     {
         private EFRepository<AccessRequest, string, AccessRequestDbContext> _repository;
 
+        private IEnumerable<AccessRequest> _cachedRequestsForUser;
         private IEnumerable<AccessRequest> _cachedRequests;
         private AccessRequest _cachedRequest;
         private string _cachedUserId;
         
-        public AccessManager(EFRepository<AccessRequest, string, AccessRequestDbContext> repository)
+        public bool HasReadPrivileges(string userId)
         {
-            _repository = repository;
-            _cachedRequests = null;
-            _cachedRequest = null;
-            _cachedUserId = null;
+            return HasApprovedRequestWithLevel(userId, AccessLevel.Redacted) ||
+                   HasApprovedRequestWithLevel(userId, AccessLevel.Partial) ||
+                   HasApprovedRequestWithLevel(userId, AccessLevel.Modify);
         }
 
-        public bool HasRequestsForLevel(string userId,AccessLevel accessLevel)
+        public bool AccessIsRedacted(string userId)
         {
-            var requestsWithMatchingLevel = GetRequestsWithLevel(userId, accessLevel);
-            
-            return requestsWithMatchingLevel.Any();
+            return !HasApprovedRequestWithLevel(userId, AccessLevel.Modify) &&
+                   !HasApprovedRequestWithLevel(userId, AccessLevel.Partial) &&
+                   HasApprovedRequestWithLevel(userId, AccessLevel.Redacted);
         }
-        
-        public bool HasApprovedRequestWithLevel(string userId,AccessLevel accessLevel)
-        {
-            var approvedRequest = GetApprovedRequestWithAccessLevel(userId,accessLevel);
-            
-            return approvedRequest == null;
-        }
-        
-        public AccessRequest GetApprovedRequestWithAccessLevel(string userId,AccessLevel accessLevel)
-        {
 
-            if (_cachedRequest != null && _cachedRequest.AccessLevel == accessLevel)
-            {
-                return _cachedRequest;
-            }
+        public void ApproveRequest(int requestId)
+        {
+            var request = _repository.GetById(requestId);
+
+            request.Status = ApprovalStatus.Approved;
             
-            var requests = GetRequests(userId);
+            _repository.Commit();
+        }
+        
+        private bool HasApprovedRequestWithLevel(string userId, AccessLevel accessLevel)
+        {
+            return GetApprovedRequestWithAccessLevel(userId, accessLevel) != null;
+        }
+
+        private AccessRequest GetApprovedRequestWithAccessLevel(string userId, AccessLevel accessLevel)
+        {
+            
+            var requests = GetCachedRequestsForUser(userId);
 
             AccessRequest matchingRequestWithHighestTimeRange = null;
             TimeSpan highestRange = TimeSpan.Zero;
-            
             
             foreach (var request in requests)
             {
@@ -67,21 +68,47 @@ namespace DoctorWho.Web.Access
             _cachedRequest = matchingRequestWithHighestTimeRange;
             return _cachedRequest;
         }
-
-        public IEnumerable<AccessRequest> GetRequestsWithLevel(string userId, AccessLevel accessLevel)
+        
+        public IEnumerable<AccessRequest> GetRequestsForUser(string userId)
         {
-            return GetRequests(userId).Where(ar => ar.AccessLevel == accessLevel);
+            return GetCachedRequestsForUser(userId);
         }
-        private IEnumerable<AccessRequest> GetRequests(string userId)
+        public IEnumerable<AccessRequest> GetRequestsForUser(string userId,AccessLevel accessLevel)
         {
-            
-            if (_cachedUserId != userId || _cachedRequests == null)
+            return GetCachedRequestsForUser(userId).Where(ar => ar.AccessLevel == accessLevel);
+        }
+        
+        public IEnumerable<AccessRequest> GetRequests()
+        {
+            return GetCachedRequests();
+        }
+        public IEnumerable<AccessRequest> GetRequests(AccessLevel accessLevel)
+        {
+            return GetCachedRequests().Where(ar => ar.AccessLevel == accessLevel);
+        }
+
+        private IEnumerable<AccessRequest> GetCachedRequests()
+        {
+            return _cachedRequests ??= _repository.GetAllEntities();
+        }
+        private IEnumerable<AccessRequest> GetCachedRequestsForUser(string userId)
+        {
+            if (_cachedUserId != userId || _cachedRequestsForUser == null)
             {
-                _cachedRequests = _repository.GetAllWithLocator(userId);
+                _cachedRequestsForUser = _repository.GetAllWithLocator(userId);
                 _cachedUserId = userId;
             }
 
-            return _cachedRequests;
+            return _cachedRequestsForUser;
+        }
+
+        
+        public AccessManager(EFRepository<AccessRequest, string, AccessRequestDbContext> repository)
+        {
+            _repository = repository;
+            _cachedRequestsForUser = null;
+            _cachedRequest = null;
+            _cachedUserId = null;
         }
     }
 }

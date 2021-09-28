@@ -3,8 +3,9 @@ using DoctorWho.Db.Access;
 
 namespace DoctorWho.Web.Models
 {
-    public class AccessRequestDto
+    public class AccessRequestWithIdDto
     {
+        public int RequestId { get; set; }
         public string AccessLevel { get; set; }
         public string UserId { get; set; }
         public DateTime StartTime { get; set; }

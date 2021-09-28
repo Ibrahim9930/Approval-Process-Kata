@@ -26,22 +26,26 @@ namespace DoctorWho.Tests.AccessControllerApiTests
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
         
-        [Fact]
-        public async Task GET_AccessController_ResourceExists_StatusCode_Should_200StatusCode()
+        [Theory]
+        [InlineData("/api/InformationRequest")]
+        [InlineData("/api/InformationRequest?Access=2")]
+        [InlineData("/api/InformationRequest/testing-user")]
+        [InlineData("/api/InformationRequest/testing-user?Access=2")]
+        public async Task GET_AccessController_ResourceExists_StatusCode_Should_200StatusCode(string uri)
         {
             var client = GetAuthenticatedClient();
 
-            var response = await client.GetAsync("/api/InformationRequest?UserId=testing-user&Access=2");
+            var response = await client.GetAsync(uri);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
-
+        
         [Fact]
         public async Task GET_AccessController_ResourceDoesNotExist_StatusCode_Should_404StatusCode()
         {
             var client = GetAuthenticatedClient();
 
-            var response = await client.GetAsync("/api/InformationRequest?UserId=non-existent-user&Access=2");
+            var response = await client.GetAsync("/api/InformationRequest/non-existent-user");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -51,7 +55,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         {
             var client = GetAuthenticatedClient();
             
-            var response = await client.GetAsync("/api/InformationRequest?UserId=testing-user&Access=2");
+            var response = await client.GetAsync("/api/InformationRequest/testing-user");
             var requests = await ResponseParser.GetObjectFromResponse<ICollection<AccessRequest>>(response);
             
             requests.Should().HaveCount(5);
@@ -62,7 +66,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
         {
             var client = GetAuthenticatedClient();
             
-            var response = await client.GetAsync("/api/InformationRequest?UserId=testing-user&Access=2");
+            var response = await client.GetAsync("/api/InformationRequest/testing-user");
             var requests = await ResponseParser.GetObjectFromResponse<IEnumerable<AccessRequest>>(response);
 
             requests.Should().OnlyContain(ar => ar.UserId == "testing-user");
