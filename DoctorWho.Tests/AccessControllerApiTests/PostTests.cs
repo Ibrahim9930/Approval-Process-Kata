@@ -24,7 +24,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
             
             var creationDto = new AccessForCreationRequestDto()
             {
-                UserId = "testing-user",
+                UserId = "testing-post",
                 AccessLevel = AccessLevel.Redacted,
                 StartTime = new DateTime(2021,1,1),
                 EndTime = new DateTime(2021,12,31)
