@@ -26,7 +26,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
             PUT_DoctorController_UpsertValid_AllFields_StatusCode_Should_200LevelStatusCode(string id,
                 HttpStatusCode statusCode)
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new DoctorForUpsertWithPut()
             {
@@ -48,7 +48,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             PUT_DoctorController_DoctorUpsertInValid_NoName_StatusCode_Should_422StatusCode(string id)
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var dto = new DoctorForUpsertWithPut()
             {
@@ -68,7 +68,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             PUT_DoctorController_DoctorUpsertInValid_LastDateBeforeFirstDate_StatusCode_Should_422StatusCode(string id)
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var dto = new DoctorForUpsertWithPut()
             {
@@ -89,7 +89,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             PUT_DoctorController_DoctorUpsertInValid_LastDateWithNoFirstDate_StatusCode_Should_422StatusCode(string id)
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var dto = new DoctorForUpsertWithPut()
             {

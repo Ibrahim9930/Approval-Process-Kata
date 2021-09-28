@@ -19,7 +19,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         [Fact]
         public async Task POST_EpisodeController_EpisodeWithValidData_StatusCode_Should_201StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {
@@ -39,7 +39,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         public async Task
             POST_EpisodeController_EpisodeWithInvalidData_ShortTitle_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {
@@ -59,7 +59,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         public async Task
             POST_EpisodeController_EpisodeWithInvalidData_NoIds_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {
@@ -77,7 +77,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         public async Task
             POST_EpisodeController_EpisodeWithInvalidData_NoNumbers_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {
@@ -96,7 +96,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         public async Task
             POST_EpisodeController_EpisodeWithInvalidData_EpisodeNumberZero_StatusCode_Should_422StatusCodee()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {
@@ -116,7 +116,7 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
         public async Task
             POST_EpisodeController_EpisodeWithInvalidData_LocatorExists_StatusCode_Should_409StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new EpisodeForCreationWithPostDto()
             {

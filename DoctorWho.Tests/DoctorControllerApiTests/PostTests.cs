@@ -22,7 +22,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         [Fact]
         public async Task POST_DoctorController_DoctorWithValidData_NoDates_StatusCode_Should_201StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new DoctorForCreationWithPostDto()
             {
@@ -39,7 +39,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             POST_DoctorController_DoctorWithInvalidData_LastDateBeforeFirstDate_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new DoctorForCreationWithPostDto()
             {
@@ -58,7 +58,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             POST_DoctorController_DoctorWithInvalidData_LastDateWithNoFirstDate_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new DoctorForCreationWithPostDto()
             {
@@ -76,7 +76,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             POST_DoctorController_DoctorWithInvalidData_NoName_StatusCode_Should_422StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new DoctorForCreationWithPostDto()
             {
@@ -92,7 +92,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             POST_DoctorController_DoctorWithInvalidData_NoNumber_StatusCode_Should_422StatusCodee()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
 
             var creationDto = new DoctorForCreationWithPostDto()
             {
@@ -108,7 +108,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         public async Task
             POST_DoctorController_DoctorWithInvalidData_NameExists_StatusCode_Should_409StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var creationDto = new DoctorForCreationWithPostDto()
             {

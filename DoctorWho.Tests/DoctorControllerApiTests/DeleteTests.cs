@@ -17,7 +17,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         [Fact]
         public async Task DELETE_DoctorController_DoctorExists_StatusCode_Should_204StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var response = await client.DeleteAsync("/api/doctors/2");
 
@@ -27,7 +27,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         [Fact]
         public async Task DELETE_DoctorController_DoctorDoesNotExist_StatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             var response = await client.DeleteAsync("/api/doctors/1");
 
@@ -37,7 +37,7 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         [Fact]
         public async Task DELETE_DoctorController_DoctorExists_GetDoctorStatusCode_Should_404StatusCode()
         {
-            var client = Fixture.CreateClient();
+            var client = GetAuthenticatedClient();
             
             await client.DeleteAsync("/api/doctors/9");
             
