@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using AutoMapper;
 using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Repositories;
@@ -78,6 +79,11 @@ namespace DoctorWho.Web.Controllers
             }
 
             return CachedEntity;
+        }
+        
+        protected string GetUserId()
+        {
+            return User.FindFirst(ClaimTypes.Name)?.Value;
         }
     }
 }
