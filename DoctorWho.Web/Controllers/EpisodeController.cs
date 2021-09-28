@@ -91,6 +91,17 @@ namespace DoctorWho.Web.Controllers
         [HttpPost]
         public ActionResult<EpisodeDto> CreateEpisode(EpisodeForCreationWithPostDto input)
         {
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             if (EntityExists(PostInputLocatorTranslator.GetLocator(input)))
             {
                 return Conflict();
@@ -107,6 +118,17 @@ namespace DoctorWho.Web.Controllers
         public ActionResult AddCompanionToEpisode(string episodeLocator,
             CompanionForCreationDto companionForCreation)
         {
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             Companion companion = GetRepresentation<CompanionForCreationDto, Companion>(companionForCreation);
 
             if (!EntityExists(episodeLocator))
@@ -125,6 +147,17 @@ namespace DoctorWho.Web.Controllers
         public ActionResult AddEnemyToEpisode(string episodeLocator,
             EnemyForCreationDto enemyForCreation)
         {
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             Enemy enemy = GetRepresentation<EnemyForCreationDto, Enemy>(enemyForCreation);
 
             if (!EntityExists(episodeLocator))

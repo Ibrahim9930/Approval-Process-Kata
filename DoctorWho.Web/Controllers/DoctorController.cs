@@ -63,7 +63,7 @@ namespace DoctorWho.Web.Controllers
         
         [HttpGet]
         [Route("{doctorNumber}", Name = "GetDoctor")]
-        public ActionResult<Doctor> GetResource(int? doctorNumber)
+        public ActionResult<DoctorDto> GetResource(int? doctorNumber)
         {
             string userId = GetUserId();
             
@@ -96,15 +96,30 @@ namespace DoctorWho.Web.Controllers
         [HttpPost]
         public ActionResult<DoctorDto> CreateDoctor(DoctorForCreationWithPostDto input)
         {
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             if (EntityExists(PostInputLocatorTranslator.GetLocator(input)))
             {
                 return Conflict();
             }
 
             AddAndCommit(input);
-
+            
+            var doctorLocator = PostInputLocatorTranslator.GetLocator(input);
+            var doctorDto =
+                (GetResource(doctorLocator).Result as OkObjectResult)?.Value;
+            
             return CreatedAtRoute("GetDoctor", new {doctorNumber = PostInputLocatorTranslator.GetLocator(input)},
-                GetResource(PostInputLocatorTranslator.GetLocator(input)));
+                doctorDto);
         }
 
         [HttpPut]
@@ -112,6 +127,18 @@ namespace DoctorWho.Web.Controllers
         public ActionResult<DoctorDto> UpsertDoctor([FromRoute] int? doctorNumber,
             [FromBody] DoctorForUpsertWithPut input)
         {
+            
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             if (EntityExists(doctorNumber))
             {
                 UpdateAndCommit(input, doctorNumber);
