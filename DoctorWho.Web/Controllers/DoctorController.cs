@@ -63,7 +63,7 @@ namespace DoctorWho.Web.Controllers
         
         [HttpGet]
         [Route("{doctorNumber}", Name = "GetDoctor")]
-        public ActionResult<Doctor> GetResource(int? doctorNumber)
+        public ActionResult<DoctorDto> GetResource(int? doctorNumber)
         {
             string userId = GetUserId();
             
@@ -102,9 +102,13 @@ namespace DoctorWho.Web.Controllers
             }
 
             AddAndCommit(input);
-
+            
+            var doctorLocator = PostInputLocatorTranslator.GetLocator(input);
+            var doctorDto =
+                (GetResource(doctorLocator).Result as OkObjectResult)?.Value;
+            
             return CreatedAtRoute("GetDoctor", new {doctorNumber = PostInputLocatorTranslator.GetLocator(input)},
-                GetResource(PostInputLocatorTranslator.GetLocator(input)));
+                doctorDto);
         }
 
         [HttpPut]
