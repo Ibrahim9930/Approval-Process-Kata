@@ -27,6 +27,8 @@ namespace DoctorWho.Tests
         private const string NoAccessUserToken =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibm8tYWNjZXNzLXVzZXIiLCJqdGkiOiI0ZDdhZWRjOS05NDRmLTQyNWEtYWE0OC0yODdmODNmZTM2MTMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxOTQ4MjcwNzc1LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.LBnaLL1i-hXMULI3zltW6K-ITASwgl0yNvMdjPhLt28";
 
+        private const string RequestChangeUserToken =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYXBwcm92ZS11c2VyIiwianRpIjoiNDM3NWE1ZTEtMjUzYy00ZDMxLTk3OWItN2JjNjA3YmYwZTk0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTk0ODM3MDc5MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEifQ.9dwBP3mfLvywWzG39F9vyxbsLdIcfh06t33PkSflBB8";
 
         protected ApiTests(InMemDbWebApplicationFactory<Web.Startup, TDbContext> fixture)
         {
@@ -74,6 +76,9 @@ namespace DoctorWho.Tests
                     break;
                 case AccessLevel.Unknown:
                     token = NoAccessUserToken;
+                    break;
+                case AccessLevel.RequestChange:
+                    token = RequestChangeUserToken;
                     break;
                 default:
                     token = "";

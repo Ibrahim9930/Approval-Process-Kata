@@ -75,7 +75,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
 
         [Fact]
         public async Task
-            POSTAccessController_AccessRequestWithInvalidData_AccessLevelUnknown_StatusCode_Should_422StatusCode()
+            POST_AccessController_AccessRequestWithInvalidData_AccessLevelUnknown_StatusCode_Should_422StatusCode()
         {
             var client = GetAuthenticatedClient();
             
