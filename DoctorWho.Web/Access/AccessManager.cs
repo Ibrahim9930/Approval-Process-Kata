@@ -27,6 +27,11 @@ namespace DoctorWho.Web.Access
         {
             return HasApprovedRequestWithLevel(userId, AccessLevel.Modify);
         }
+        
+        public bool HasApprovePrivileges(string userId)
+        {
+            return HasApprovedRequestWithLevel(userId, AccessLevel.RequestChange);
+        }
 
         public bool AccessIsRedacted(string userId)
         {
@@ -34,7 +39,7 @@ namespace DoctorWho.Web.Access
                    !HasApprovedRequestWithLevel(userId, AccessLevel.Partial) &&
                    HasApprovedRequestWithLevel(userId, AccessLevel.Redacted);
         }
-
+        
         public void ApproveRequest(int requestId)
         {
             var request = _repository.GetById(requestId);
@@ -42,6 +47,12 @@ namespace DoctorWho.Web.Access
             request.Status = ApprovalStatus.Approved;
             
             _repository.Commit();
+        }
+
+        public bool RequestExists(int requestId)
+        {
+            var x = _repository.GetById(requestId);
+            return  x != null; 
         }
         
         private bool HasApprovedRequestWithLevel(string userId, AccessLevel accessLevel)
@@ -115,7 +126,6 @@ namespace DoctorWho.Web.Access
             _cachedRequest = null;
             _cachedUserId = null;
         }
-
-
+        
     }
 }
