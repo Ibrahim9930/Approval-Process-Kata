@@ -20,6 +20,51 @@ namespace DoctorWho.Db
             {
                 new AccessRequest()
                 {
+                    RequestId = 1000,
+                    UserId = "admin",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MaxValue,
+                    AccessLevel = AccessLevel.Modify,
+                    Status = ApprovalStatus.Approved
+                },
+                new AccessRequest()
+                {
+                    RequestId = 1001,
+                    UserId = "redacted-user",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MaxValue,
+                    AccessLevel = AccessLevel.Redacted,
+                    Status = ApprovalStatus.Approved
+                },
+                new AccessRequest()
+                {
+                    RequestId = 1002,
+                    UserId = "partial-user",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MaxValue,
+                    AccessLevel = AccessLevel.Partial,
+                    Status = ApprovalStatus.Approved
+                },
+                new AccessRequest()
+                {
+                    RequestId = 1003,
+                    UserId = "modify-user",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MaxValue,
+                    AccessLevel = AccessLevel.Modify,
+                    Status = ApprovalStatus.Approved
+                },
+                new AccessRequest()
+                {
+                    RequestId = 1004,
+                    UserId = "approve-user",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MaxValue,
+                    AccessLevel = AccessLevel.RequestChange,
+                    Status = ApprovalStatus.Approved
+                },
+                new AccessRequest()
+                {
                     RequestId = 100,
                     UserId = "testing-user",
                     StartTime = new DateTime(2021,1,1),
@@ -62,6 +107,15 @@ namespace DoctorWho.Db
                     EndTime = new DateTime(2021,2,2),
                     AccessLevel = AccessLevel.Partial,
                     Status = ApprovalStatus.Rejected
+                },
+                new AccessRequest()
+                {
+                    RequestId = 2000,
+                    UserId = "approved-user",
+                    StartTime = new DateTime(2018,1,1),
+                    EndTime = new DateTime(2021,2,2),
+                    AccessLevel = AccessLevel.Partial,
+                    Status = ApprovalStatus.Unknown
                 },
             });
         }
