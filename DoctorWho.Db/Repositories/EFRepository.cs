@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using DoctorWho.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Db.Repositories
 {
-    public abstract class EFRepository<TEntity, TLocator> : IRepository<TEntity>
-        where TEntity : class
+    public abstract class EFRepository<TEntity, TLocator,TDbContext> : IRepository<TEntity>
+        where TEntity : class where TDbContext : DbContext
     {
-        protected DoctorWhoCoreDbContext Context;
+        protected TDbContext Context;
         private ILocatorPredicate<TEntity, TLocator> LocatorPredicate { get; }
 
-        protected EFRepository(DoctorWhoCoreDbContext context,
+        protected EFRepository(TDbContext context,
             ILocatorPredicate<TEntity, TLocator> locatorPredicate)
         {
             Context = context;
@@ -27,6 +28,11 @@ namespace DoctorWho.Db.Repositories
         public TEntity GetByLocator(TLocator locator)
         {
             return Context.Set<TEntity>().FirstOrDefault(LocatorPredicate.GetExpression(locator));
+        }
+        
+        public IEnumerable<TEntity> GetAllWithLocator(TLocator locator)
+        {
+            return Context.Set<TEntity>().Where(LocatorPredicate.GetExpression(locator));
         }
 
         public abstract TEntity GetByIdWithRelatedData(int id);
