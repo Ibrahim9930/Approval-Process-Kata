@@ -30,9 +30,9 @@ namespace DoctorWho.Db.Authentication
         private static IdentityRole[] GetSeedRoles()
         {
             var roles = Enum.GetNames<UserRoles>().Select(ur => new IdentityRole(ur)
-            {
-                NormalizedName = ur.ToUpper()
-            })
+                {
+                    NormalizedName = ur.ToUpper()
+                })
                 .ToArray();
             return roles;
         }
@@ -48,6 +48,22 @@ namespace DoctorWho.Db.Authentication
                 new IdentityUser(userName: "testing-user")
                 {
                     NormalizedUserName = "testing-user".ToUpper()
+                },
+                new IdentityUser(userName: "redacted-user")
+                {
+                    NormalizedUserName = "redacted-user".ToUpper()
+                },
+                new IdentityUser(userName: "partial-user")
+                {
+                    NormalizedUserName = "partial-user".ToUpper()
+                },
+                new IdentityUser(userName: "modify-user")
+                {
+                    NormalizedUserName = "modify-user".ToUpper()
+                },
+                new IdentityUser(userName: "no-access-user")
+                {
+                    NormalizedUserName = "no-access-user".ToUpper()
                 }
             };
 
@@ -73,6 +89,26 @@ namespace DoctorWho.Db.Authentication
                 new IdentityUserRole<string>()
                 {
                     UserId = users.Single(usr => usr.UserName == "testing-user").Id,
+                    RoleId = roles.Single(role => role.Name == "User").Id
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = users.Single(usr => usr.UserName == "redacted-user").Id,
+                    RoleId = roles.Single(role => role.Name == "User").Id
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = users.Single(usr => usr.UserName == "partial-user").Id,
+                    RoleId = roles.Single(role => role.Name == "User").Id
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = users.Single(usr => usr.UserName == "modify-user").Id,
+                    RoleId = roles.Single(role => role.Name == "User").Id
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = users.Single(usr => usr.UserName == "no-access-user").Id,
                     RoleId = roles.Single(role => role.Name == "User").Id
                 }
             };
