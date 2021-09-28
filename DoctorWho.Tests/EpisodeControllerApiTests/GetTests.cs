@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using DoctorWho.Db;
+using DoctorWho.Db.Access;
 using DoctorWho.Tests.Utils;
 using DoctorWho.Web;
 using DoctorWho.Web.Models;
@@ -36,6 +37,41 @@ namespace DoctorWho.Tests.EpisodeControllerApiTests
             var response = await client.GetAsync(uri);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        
+        [Theory]
+        [InlineData(AccessLevel.Redacted)]
+        [InlineData(AccessLevel.Partial)]
+        [InlineData(AccessLevel.Modify)]
+        public async Task GET_EpisodeController_ResourceExist_HasReadAccessLevel_StatusCode_Should_200StatusCode(
+            AccessLevel accessLevel)
+        {
+            var client = GetAuthenticatedClientWithAccessLevel(accessLevel);
+
+            var response = await client.GetAsync("/api/episodes");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task GET_EpisodeController_ResourceExist_HasNoReadAccessLevel_Response_Should_304StatusCode()
+        {
+            var client = GetAuthenticatedClientWithAccessLevel(AccessLevel.Unknown);
+            
+            var response = await client.GetAsync("/api/episodes");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Redirect);
+        }
+
+        [Fact]
+        public async Task GET_EpisodeController_ResourceExist_HasRedactedReadAccessLevel_Response_Should_HaveRedactedTitles()
+        {
+            var client = GetAuthenticatedClientWithAccessLevel(AccessLevel.Redacted);
+            
+            var response = await client.GetAsync("/api/episodes");
+            var doctors = await ResponseParser.GetObjectFromResponse<ICollection<EpisodeDto>>(response);
+
+            doctors.Should().OnlyContain(ep => ep.Title == "Redacted");
         }
         
         [Fact]
