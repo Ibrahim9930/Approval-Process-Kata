@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DoctorWho.Db;
+using DoctorWho.Db.Access;
 using DoctorWho.Tests.Utils;
 using DoctorWho.Web.Models;
 using FluentAssertions;
@@ -19,6 +20,52 @@ namespace DoctorWho.Tests.DoctorControllerApiTests
         {
         }
 
+        [Theory]
+        [InlineData("200")]
+        [InlineData("2")]
+        public async Task
+            PUT_DoctorController_Unauthenticated_StatusCode_Should_401LevelStatusCode(string id)
+        {
+            var client = GetUnauthenticatedClient();
+
+            var creationDto = new DoctorForUpsertWithPut()
+            {
+                DoctorName = "Ibrahim",
+                Birthdate = new DateTime(1999, 11, 30),
+                FirstEpisodeDate = new DateTime(2000, 2, 2),
+                LastEpisodeDate = new DateTime(2001, 2, 2)
+            };
+            
+            var response = await client.PutAsync($"/api/doctors/{id}",
+                ResponseParser.GetResponseBody(creationDto));
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+        
+        [Theory]
+        [InlineData(AccessLevel.Partial,"2")]
+        [InlineData(AccessLevel.Partial,"200")]
+        [InlineData(AccessLevel.Redacted,"2")]
+        [InlineData(AccessLevel.Redacted,"200")]
+        public async Task
+            PUT_DoctorController_ValidDoctorUpsert_HasNoWriteAccessLevel_StatusCode_Should_302LevelStatusCode(AccessLevel accessLevel,string id)
+        {
+            var client = GetAuthenticatedClientWithAccessLevel(accessLevel);
+
+            var creationDto = new DoctorForUpsertWithPut()
+            {
+                DoctorName = "Ibrahim",
+                Birthdate = new DateTime(1999, 11, 30),
+                FirstEpisodeDate = new DateTime(2000, 2, 2),
+                LastEpisodeDate = new DateTime(2001, 2, 2)
+            };
+            
+            var response = await client.PutAsync($"/api/doctors/{id}",
+                ResponseParser.GetResponseBody(creationDto));
+
+            response.StatusCode.Should().Be(HttpStatusCode.Redirect);
+        }
+        
         [Theory]
         [InlineData("200", HttpStatusCode.Created)]
         [InlineData("2", HttpStatusCode.OK)]
