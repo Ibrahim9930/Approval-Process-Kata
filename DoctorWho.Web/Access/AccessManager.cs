@@ -22,6 +22,11 @@ namespace DoctorWho.Web.Access
                    HasApprovedRequestWithLevel(userId, AccessLevel.Partial) ||
                    HasApprovedRequestWithLevel(userId, AccessLevel.Modify);
         }
+        
+        public bool HasWritePrivileges(string userId)
+        {
+            return HasApprovedRequestWithLevel(userId, AccessLevel.Modify);
+        }
 
         public bool AccessIsRedacted(string userId)
         {
@@ -110,5 +115,7 @@ namespace DoctorWho.Web.Access
             _cachedRequest = null;
             _cachedUserId = null;
         }
+
+
     }
 }

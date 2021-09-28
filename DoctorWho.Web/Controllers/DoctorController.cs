@@ -96,6 +96,17 @@ namespace DoctorWho.Web.Controllers
         [HttpPost]
         public ActionResult<DoctorDto> CreateDoctor(DoctorForCreationWithPostDto input)
         {
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             if (EntityExists(PostInputLocatorTranslator.GetLocator(input)))
             {
                 return Conflict();
@@ -116,6 +127,18 @@ namespace DoctorWho.Web.Controllers
         public ActionResult<DoctorDto> UpsertDoctor([FromRoute] int? doctorNumber,
             [FromBody] DoctorForUpsertWithPut input)
         {
+            
+            string userId = GetUserId();
+            
+            if (!_accessManager.HasWritePrivileges(userId))
+            {
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                {
+                    userId,
+                    Access = AccessLevel.Unknown,
+                });
+            }
+            
             if (EntityExists(doctorNumber))
             {
                 UpdateAndCommit(input, doctorNumber);
