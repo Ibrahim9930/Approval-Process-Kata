@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DoctorWho.Db;
@@ -20,17 +21,19 @@ namespace DoctorWho.Web.Controllers
     {
         private readonly AccessManager _accessManager;
         private readonly UserManager<IdentityUser> _userManager;
+
         public AccessController(EFRepository<AccessRequest, string, AccessRequestDbContext> repository, IMapper mapper,
-            ILocatorTranslator<AccessRequest, string> locatorTranslator, AccessManager accessManager, UserManager<IdentityUser> userManager) : base(repository,
+            ILocatorTranslator<AccessRequest, string> locatorTranslator, AccessManager accessManager,
+            UserManager<IdentityUser> userManager) : base(repository,
             mapper, locatorTranslator)
         {
             _accessManager = accessManager;
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Approver,Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult GetRequestsWithId([FromQuery(Name = "Access")] AccessLevel accessLevel)
+        public IActionResult GetRequests([FromQuery(Name = "Access")] AccessLevel accessLevel)
         {
             var requests = accessLevel == AccessLevel.Unknown
                 ? _accessManager.GetRequests()
@@ -52,8 +55,8 @@ namespace DoctorWho.Web.Controllers
                 accessLevel == AccessLevel.Unknown
                     ? _accessManager.GetRequestsForUser(userId).ToList()
                     : _accessManager.GetRequestsForUser(userId, accessLevel).ToList();
-            
-            if (User.IsInRole("Approver") || User.IsInRole("Admin"))
+
+            if (_accessManager.HasApprovePrivileges(userId) || User.IsInRole("Admin"))
             {
                 var output =
                     GetRepresentation<IEnumerable<AccessRequest>, IEnumerable<AccessRequestWithIdDto>>(requests);
@@ -69,17 +72,17 @@ namespace DoctorWho.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AccessRequestWithIdDto>> CreateRequest(AccessForCreationRequestDto input)
+        public async Task<ActionResult<AccessRequestDto>> CreateRequest(AccessForCreationRequestDto input)
         {
             if (!await UserExists(input.UserId))
                 return NotFound();
-            
+
             AddAndCommit(input);
 
             var requestsForTheUser = _accessManager.GetRequestsForUser(input.UserId);
 
             var output =
-                GetRepresentation<IEnumerable<AccessRequest>, IEnumerable<AccessRequestWithIdDto>>(requestsForTheUser);
+                GetRepresentation<IEnumerable<AccessRequest>, IEnumerable<AccessRequestDto>>(requestsForTheUser);
 
             return CreatedAtRoute("GetRequestsForUser", new
             {
@@ -87,19 +90,27 @@ namespace DoctorWho.Web.Controllers
             }, output);
         }
 
-        private async Task<bool> UserExists(string userId)
-        {
-            return await _userManager.FindByNameAsync(userId) != null;
-        }
-
-        [Authorize(Roles = "Approver,Admin")]
         [HttpOptions]
         [Route("approve/{requestId:int}")]
         public IActionResult ApproveRequest(int requestId)
         {
+            var userId = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!_accessManager.HasApprovePrivileges(userId))
+            {
+                return Forbid();
+            }
+
+            if (!_accessManager.RequestExists(requestId))
+                return NotFound();
+            
             _accessManager.ApproveRequest(requestId);
 
             return Ok();
+        }
+
+        private async Task<bool> UserExists(string userId)
+        {
+            return await _userManager.FindByNameAsync(userId) != null;
         }
     }
 }

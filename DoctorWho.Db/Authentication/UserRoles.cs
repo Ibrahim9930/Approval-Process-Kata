@@ -7,7 +7,6 @@ namespace DoctorWho.Db.Authentication
     public enum UserRoles
     {
         User,
-        Approver,
         Auditor,
         Admin
     }
