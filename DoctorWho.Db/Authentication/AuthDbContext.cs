@@ -61,6 +61,14 @@ namespace DoctorWho.Db.Authentication
                 {
                     NormalizedUserName = "modify-user".ToUpper()
                 },
+                new IdentityUser(userName: "approving-user")
+                {
+                    NormalizedUserName = "approving-user".ToUpper()
+                },
+                new IdentityUser(userName: "approved-user")
+                {
+                    NormalizedUserName = "approved-user".ToUpper()
+                },
                 new IdentityUser(userName: "no-access-user")
                 {
                     NormalizedUserName = "no-access-user".ToUpper()
@@ -104,6 +112,11 @@ namespace DoctorWho.Db.Authentication
                 new IdentityUserRole<string>()
                 {
                     UserId = users.Single(usr => usr.UserName == "modify-user").Id,
+                    RoleId = roles.Single(role => role.Name == "User").Id
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = users.Single(usr => usr.UserName == "approved-user").Id,
                     RoleId = roles.Single(role => role.Name == "User").Id
                 },
                 new IdentityUserRole<string>()
