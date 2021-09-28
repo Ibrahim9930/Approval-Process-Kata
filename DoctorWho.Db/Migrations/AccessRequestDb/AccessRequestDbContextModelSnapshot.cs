@@ -16,7 +16,7 @@ namespace DoctorWho.Db.Migrations.AccessRequestDb
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DoctorWho.Db.Access.AccessRequest", b =>
@@ -46,42 +46,6 @@ namespace DoctorWho.Db.Migrations.AccessRequestDb
                     b.ToTable("AccessRequests");
 
                     b.HasData(
-                        new
-                        {
-                            RequestId = 1000,
-                            AccessLevel = 4,
-                            EndTime = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
-                            UserId = "admin"
-                        },
-                        new
-                        {
-                            RequestId = 1001,
-                            AccessLevel = 1,
-                            EndTime = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
-                            UserId = "redacted-user"
-                        },
-                        new
-                        {
-                            RequestId = 1002,
-                            AccessLevel = 2,
-                            EndTime = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
-                            UserId = "partial-user"
-                        },
-                        new
-                        {
-                            RequestId = 1003,
-                            AccessLevel = 4,
-                            EndTime = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
-                            UserId = "modify-user"
-                        },
                         new
                         {
                             RequestId = 100,

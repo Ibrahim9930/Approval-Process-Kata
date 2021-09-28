@@ -48,29 +48,29 @@ namespace DoctorWho.Db.Migrations.AuthDb
                     b.HasData(
                         new
                         {
-                            Id = "6ebb48da-c685-4021-a02d-7e126616a7b5",
-                            ConcurrencyStamp = "fe964f6a-0dba-4c42-823e-2671f98c5044",
+                            Id = "f5c24019-98da-4ee0-94fe-b4c0bab4d89f",
+                            ConcurrencyStamp = "12bb292a-ca4d-41af-bc14-8bbd6027b956",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "f0b495e7-68e7-4b9b-bd53-81316f22d5c6",
-                            ConcurrencyStamp = "05fdac14-f1c3-4498-a22f-46d2a108ad2b",
+                            Id = "bf4aea3c-2b01-43fc-b871-13596457e8f1",
+                            ConcurrencyStamp = "0a67c036-ff13-4c17-acb3-28a8b6f1af2f",
                             Name = "Approver",
                             NormalizedName = "APPROVER"
                         },
                         new
                         {
-                            Id = "43de098c-8ca7-42ae-8d78-ed6d04b645f3",
-                            ConcurrencyStamp = "7bb5a863-8f5d-461b-a71c-78d25d974b34",
+                            Id = "4d70e870-d9e5-4834-ab07-355f9629228e",
+                            ConcurrencyStamp = "f5d0111c-f5f8-416c-84bf-9a21ed4510cb",
                             Name = "Auditor",
                             NormalizedName = "AUDITOR"
                         },
                         new
                         {
-                            Id = "5c362182-4c69-441a-b5dc-3f3d1951e7bf",
-                            ConcurrencyStamp = "a272b761-d8d6-4560-be7e-875480cf6685",
+                            Id = "366b3296-2c88-48b0-a831-c5a3aa328df8",
+                            ConcurrencyStamp = "e3a9d500-7723-44f0-abe0-7e3653e19488",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -167,87 +167,31 @@ namespace DoctorWho.Db.Migrations.AuthDb
                     b.HasData(
                         new
                         {
-                            Id = "3293219c-2e66-4bb6-961a-4cef432ef1f5",
+                            Id = "bc952842-3f0d-4f85-a950-11ad230572e1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a45c5347-7d4e-47d8-9c6e-c61220137525",
+                            ConcurrencyStamp = "6cccb872-7407-46a5-9eaa-97222893d699",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENn2S779wkCgOf0AEHt2mcb4bXeh7f9EjplYcl4zVz3FGsEaYRAVwKT9lcVycBTW4w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIv3KNsmIrbqifqvKLHWrE9ClxlZ/kUl0BkPn09hK5hLJ5yLCbhuei4vHkxtTuDsjQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a1ff3be5-4a95-46d2-aaba-041f46a6f49a",
+                            SecurityStamp = "afe8bc58-8c15-4f0b-a8ef-da1ed5e8b17f",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "aa3bf53f-0483-4c36-b25e-a5e1c128382f",
+                            Id = "9063ba71-9fda-4374-b678-cdcc3eade8f6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a39ddf3-26bd-44e4-823f-9d53d5add85b",
+                            ConcurrencyStamp = "0798488d-7c4c-4ba2-bfd7-8661dd54cbda",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "TESTING-USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEoB2a8jK/u2OLvCVDIogRehj3b7cI5Lhti3HmMs+F0kF5c000Maq/fEZHuYgPp16Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELoh74oFCzT4FMYHJglYN0axhM/SjOyVGeyfSggNiPFbO46Mvf/+4X5kI04aZ6pbNg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d98eb0a1-c515-48f1-bc9c-d02fe2a45e08",
+                            SecurityStamp = "0b9efaa7-ea88-47d4-baba-8639da808847",
                             TwoFactorEnabled = false,
                             UserName = "testing-user"
-                        },
-                        new
-                        {
-                            Id = "4e4ff383-a8a3-4cfc-ae71-aca8724ef2e2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "644a3c71-1020-4b97-9bf5-91c072f8fadc",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "REDACTED-USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBNRMbZa0mawrZfJ3piRj6nK644K5YGE48szaoDhrqFme0fuLrRFVwJxkWZrYiDrQw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "eaf6497e-52fa-4aa1-b9c1-d42ab885bdc9",
-                            TwoFactorEnabled = false,
-                            UserName = "redacted-user"
-                        },
-                        new
-                        {
-                            Id = "49ec4425-d734-439f-9126-6ac343161306",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "66556573-9ad4-4242-b961-5b6f79e37d9f",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "PARTIAL-USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDjb90TvKs7YolDb1oNTEiRNFcv3sYyagm1RDHbDAmBfKuFq09pO/U9WLIiWKpZwew==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0b1d2a75-e72c-4db8-bfca-239f563e8f87",
-                            TwoFactorEnabled = false,
-                            UserName = "partial-user"
-                        },
-                        new
-                        {
-                            Id = "7765e6a1-b018-4f50-922f-146d324f7e57",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a43066b4-2536-42fa-981a-9c2069f3a3ea",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "MODIFY-USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHr5v2BTQx4iO5CHA3ISllFdQz32mXhhxT5Qaa/RECCJKZoFDZ689XvCyemoUdoe0g==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0011d0d4-e205-4f88-bfd3-6737c5587685",
-                            TwoFactorEnabled = false,
-                            UserName = "modify-user"
-                        },
-                        new
-                        {
-                            Id = "9f1293c7-8e8e-41ac-877e-e21b37eceec6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "af7db58e-eda0-4a9f-bdbd-962a3f657be3",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "NO-ACCESS-USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ8eCKM5QGh4s0adQmJP20+SU2KPl/JlXO//CTtWPirzvtEZL1z/Sfzb62rIgkflRw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "6e44023d-62b8-434b-afa7-116e327e86a7",
-                            TwoFactorEnabled = false,
-                            UserName = "no-access-user"
                         });
                 });
 
@@ -314,33 +258,13 @@ namespace DoctorWho.Db.Migrations.AuthDb
                     b.HasData(
                         new
                         {
-                            UserId = "3293219c-2e66-4bb6-961a-4cef432ef1f5",
-                            RoleId = "5c362182-4c69-441a-b5dc-3f3d1951e7bf"
+                            UserId = "bc952842-3f0d-4f85-a950-11ad230572e1",
+                            RoleId = "366b3296-2c88-48b0-a831-c5a3aa328df8"
                         },
                         new
                         {
-                            UserId = "aa3bf53f-0483-4c36-b25e-a5e1c128382f",
-                            RoleId = "6ebb48da-c685-4021-a02d-7e126616a7b5"
-                        },
-                        new
-                        {
-                            UserId = "4e4ff383-a8a3-4cfc-ae71-aca8724ef2e2",
-                            RoleId = "6ebb48da-c685-4021-a02d-7e126616a7b5"
-                        },
-                        new
-                        {
-                            UserId = "49ec4425-d734-439f-9126-6ac343161306",
-                            RoleId = "6ebb48da-c685-4021-a02d-7e126616a7b5"
-                        },
-                        new
-                        {
-                            UserId = "7765e6a1-b018-4f50-922f-146d324f7e57",
-                            RoleId = "6ebb48da-c685-4021-a02d-7e126616a7b5"
-                        },
-                        new
-                        {
-                            UserId = "9f1293c7-8e8e-41ac-877e-e21b37eceec6",
-                            RoleId = "6ebb48da-c685-4021-a02d-7e126616a7b5"
+                            UserId = "9063ba71-9fda-4374-b678-cdcc3eade8f6",
+                            RoleId = "f5c24019-98da-4ee0-94fe-b4c0bab4d89f"
                         });
                 });
 
