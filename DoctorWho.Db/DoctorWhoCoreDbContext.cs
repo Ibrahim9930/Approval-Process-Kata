@@ -87,7 +87,9 @@ namespace DoctorWho.Db
             modelBuilder.Entity<EpisodeDetails>().Property(ed => ed.EnemiesNames)
                 .HasColumnName("Enemies");
 
-            SeedModel(modelBuilder);
+            AccessRequestDbContext.AddShadowProperties(modelBuilder);
+            
+            // SeedModel(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
