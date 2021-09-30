@@ -15,7 +15,7 @@ namespace DoctorWho.Db.Utilities
         private static IEntityWriter _entityWriter = new FakeDataReaderWriter();
         public static string GetFilePathForTypeFakes<T>() where T : class
         {
-            return $"{FAKES_PATH}/{typeof(T).Name}.json";
+            return $"{FAKES_PATH}/{typeof(T).BaseType?.Name}.json";
         }
 
         public static string GetFilePathForJoinTypeFakes<TEntityType1, TEntityType2>()
