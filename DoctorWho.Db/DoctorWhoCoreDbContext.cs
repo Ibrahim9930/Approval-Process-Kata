@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using DoctorWho.Db.Domain;
+using DoctorWho.Db.SeededModels;
 using DoctorWho.Db.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -33,7 +35,8 @@ namespace DoctorWho.Db
             _entityReader = new FakeDataReaderWriter();
         }
 
-        public DoctorWhoCoreDbContext(DbContextOptions<DoctorWhoCoreDbContext> options, IEntityReader entityReader = null) : base(options)
+        public DoctorWhoCoreDbContext(DbContextOptions<DoctorWhoCoreDbContext> options,
+            IEntityReader entityReader = null) : base(options)
         {
             if (entityReader != null)
             {
@@ -53,6 +56,7 @@ namespace DoctorWho.Db
         {
             throw new NotSupportedException();
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             GetJoinEntityBuilder<Enemy, Episode>(modelBuilder).UsingEntity(j =>
@@ -88,8 +92,8 @@ namespace DoctorWho.Db
                 .HasColumnName("Enemies");
 
             AccessRequestDbContext.AddShadowProperties(modelBuilder);
-            
-            // SeedModel(modelBuilder);
+
+            SeedModel(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -101,49 +105,60 @@ namespace DoctorWho.Db
 
         private void SeedEntities(ModelBuilder modelBuilder)
         {
-            SeedEntity<Author>(modelBuilder);
-            SeedEntity<Enemy>(modelBuilder);
-            SeedEntity<Doctor>(modelBuilder);
-            SeedEntity<Companion>(modelBuilder);
-            SeedEntity<Episode>(modelBuilder);
+            SeedEntity<Author, SeededAuthor>(modelBuilder);
+            SeedEntity<Enemy, SeededEnemy>(modelBuilder);
+            SeedEntity<Doctor, SeededDoctor>(modelBuilder);
+            SeedEntity<Companion, SeededCompanion>(modelBuilder);
+            SeedEntity<Episode, SeededEpisode>(modelBuilder);
         }
 
-        private void SeedEntity<T>(ModelBuilder modelBuilder) where T : class
+        private void SeedEntity<TEntity, TSeed>(ModelBuilder modelBuilder)
+            where TEntity : class where TSeed : class, TEntity
         {
-            List<T> entities = _entityReader.ReadAllFakeEntities<T>()?.ToList() ?? new List<T>();
-
-            modelBuilder.Entity<T>().HasData(entities);
+            var entities = _entityReader.ReadAllFakeEntities<TSeed>() ?? new List<TSeed>();
+            
+            var seedEntities = AnonymousTypeConvertors.ConvertEntitiesToAnonymous(entities).ToArray();
+            
+            modelBuilder.Entity<TEntity>().HasData(seedEntities);
         }
 
         private void SeedJoinEntities(ModelBuilder modelBuilder)
         {
-            List<IDictionary<string, int>> enemyEpisodeEntities =
-                (List<IDictionary<string, int>>) _entityReader.ReadAllFakeJoinEntities<Enemy, Episode>() ??
-                new List<IDictionary<string, int>>();
+            List<IDictionary<string, object>> enemyEpisodeEntities =
+                (List<IDictionary<string, object>>) _entityReader.ReadAllFakeJoinEntities<Enemy, Episode>() ??
+                new List<IDictionary<string, object>>();
             ;
 
             var mappedEnemyEpisodes
                 = enemyEpisodeEntities.Select(e => new
                 {
-                    EpisodesEpisodeId = e["EpisodesEpisodeId"],
-                    EnemiesEnemyId = e["EnemiesEnemyId"],
-                    EpisodeEnemyId = e["EpisodeEnemyId"],
+                    EpisodesEpisodeId = ((JsonElement) e["EpisodesEpisodeId"]).GetInt32(),
+                    EnemiesEnemyId = ((JsonElement) e["EnemiesEnemyId"]).GetInt32(),
+                    EpisodeEnemyId = ((JsonElement) e["EpisodeEnemyId"]).GetInt32(),
+                    CreatedOn = Convert.ToDateTime(((JsonElement) e["CreatedOn"]).ToString()),
+                    CreatedBy = ((JsonElement) e["CreatedBy"]).GetString(),
+                    ModifiedOn = Convert.ToDateTime(((JsonElement) e["ModifiedOn"]).ToString()),
+                    ModifiedBy = ((JsonElement) e["ModifiedBy"]).GetString(),
                 });
 
             GetJoinEntityBuilder<Enemy, Episode>(modelBuilder)
                 .UsingEntity(j => j.HasData(mappedEnemyEpisodes));
 
 
-            List<IDictionary<string, int>> companionEpisodeEntities =
-                (List<IDictionary<string, int>>) _entityReader.ReadAllFakeJoinEntities<Companion, Episode>() ??
-                new List<IDictionary<string, int>>();
+            List<IDictionary<string, object>> companionEpisodeEntities =
+                (List<IDictionary<string, object>>) _entityReader.ReadAllFakeJoinEntities<Companion, Episode>() ??
+                new List<IDictionary<string, object>>();
 
             var mappedCompanionEpisodes
                 = companionEpisodeEntities.Select(e => new
                 {
-                    EpisodesEpisodeId = e["EpisodesEpisodeId"],
-                    CompanionsCompanionId = e["CompanionsCompanionId"],
-                    EpisodeCompanionId = e["EpisodeCompanionId"]
+                    EpisodesEpisodeId = ((JsonElement)e["EpisodesEpisodeId"]).GetInt32(),
+                    CompanionsCompanionId = ((JsonElement)e["CompanionsCompanionId"]).GetInt32(),
+                    EpisodeCompanionId = ((JsonElement)e["EpisodeCompanionId"]).GetInt32(),
+                    CreatedOn = Convert.ToDateTime(((JsonElement) e["CreatedOn"]).ToString()),
+                    CreatedBy = ((JsonElement) e["CreatedBy"]).GetString(),
+                    ModifiedOn = Convert.ToDateTime(((JsonElement) e["ModifiedOn"]).ToString()),
+                    ModifiedBy = ((JsonElement) e["ModifiedBy"]).GetString(),
                 });
 
             GetJoinEntityBuilder<Companion, Episode>(modelBuilder)
