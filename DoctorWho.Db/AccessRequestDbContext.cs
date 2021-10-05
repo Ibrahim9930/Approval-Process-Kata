@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DoctorWho.Db.Access;
+using DoctorWho.Db.DBModels;
+using DoctorWho.Db.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Db
 {
-    public class AccessRequestDbContext : DbContext
+    public class AccessRequestDbContext : DbContext, IMetadataLogger
     {
         public DbSet<AccessRequest> AccessRequests { get; set; }
 
@@ -184,6 +187,26 @@ namespace DoctorWho.Db
                     .HasDefaultValue(DateTime.MinValue);
                 modelBuilder.Entity(entityType.Name).Property<string>("ModifiedBy");
             }
+        }
+
+        public int SaveChangesWithMetadata(string userId)
+        {
+            ChangeTracker.DetectChanges();
+
+            foreach (var entry in ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Modified || e.State == EntityState.Added))
+            {
+                entry.Property("ModifiedOn").CurrentValue = DateTime.Now;
+                entry.Property("ModifiedBy").CurrentValue = userId;
+
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("CreatedOn").CurrentValue = DateTime.Now;
+                    entry.Property("CreatedBy").CurrentValue = userId;
+                }
+            }
+
+            return base.SaveChanges();
         }
     }
 }

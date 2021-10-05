@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using DoctorWho.Db.DBModels;
 using DoctorWho.Db.Domain;
-using DoctorWho.Db.SeededModels;
+using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Configuration;
 
 namespace DoctorWho.Db
 {
-    public class DoctorWhoCoreDbContext : DbContext
+    public class DoctorWhoCoreDbContext : DbContext,IMetadataLogger
     {
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
@@ -164,6 +163,26 @@ namespace DoctorWho.Db
             GetJoinEntityBuilder<Companion, Episode>(modelBuilder)
                 .UsingEntity(j => j.HasData(mappedCompanionEpisodes));
         }
+
+        public int SaveChangesWithMetadata(string userId)
+        {
+            ChangeTracker.DetectChanges();
+            
+            foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified || e.State == EntityState.Added))
+            {
+                entry.Property("ModifiedOn").CurrentValue = DateTime.Now;
+                entry.Property("ModifiedBy").CurrentValue = userId;
+
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("CreatedOn").CurrentValue = DateTime.Now;
+                    entry.Property("CreatedBy").CurrentValue = userId;
+                }
+            }
+
+            return base.SaveChanges();
+        }
+        
 
         private static CollectionCollectionBuilder<TSecondEntityType, TFirstEntityType>
             GetJoinEntityBuilder<TFirstEntityType, TSecondEntityType>(ModelBuilder modelBuilder)
