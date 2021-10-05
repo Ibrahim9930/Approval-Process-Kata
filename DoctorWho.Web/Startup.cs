@@ -114,16 +114,14 @@ namespace DoctorWho.Web
             services.AddSingleton<ILocatorTranslator<DoctorForCreationWithPostDto, int?>, DoctorPostDtoLocator>();
             services.AddSingleton<ILocatorTranslator<EpisodeForCreationWithPostDto, string>, EpisodePostDtoLocator>();
 
-            services
-                .AddScoped<EFRepository<AccessRequest, string, AccessRequestDbContext>,
-                    AccessRequestEfRepository<string>>();
-            services.AddScoped<EFRepository<Doctor, int?, DoctorWhoCoreDbContext>, DoctorEfRepository<int?>>();
-            services.AddScoped<EFRepository<Episode, string, DoctorWhoCoreDbContext>, EpisodeEfRepository<string>>();
-            services.AddScoped<EFRepository<Author, string, DoctorWhoCoreDbContext>, AuthorEfRepository<string>>();
+            services.AddScoped<IRepository<AccessRequest, string>, AccessRequestEfRepository<string>>();
+            services.AddScoped<IRepository<Doctor, int?>, DoctorEfRepository<int?>>();
+            services.AddScoped<IRepository<Episode, string>, EpisodeEfRepository<string>>();
+            services.AddScoped<IRepository<Author, string>, AuthorEfRepository<string>>();
 
             services.AddScoped<AccessManager>();
 
-            services.AddIdentity<IdentityUser,IdentityRole>(opt =>
+            services.AddIdentity<IdentityUser, IdentityRole>(opt =>
                 {
                     opt.Password.RequireDigit = false;
                     opt.Password.RequireLowercase = false;
