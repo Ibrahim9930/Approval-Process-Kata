@@ -9,7 +9,7 @@ namespace DoctorWho.Web.Access
 {
     public class AccessManager
     {
-        private EFRepository<AccessRequest, string, AccessRequestDbContext> _repository;
+        private readonly IRepository<AccessRequest, string> _repository;
 
         private IEnumerable<AccessRequest> _cachedRequestsForUser;
         private IEnumerable<AccessRequest> _cachedRequests;
@@ -119,7 +119,7 @@ namespace DoctorWho.Web.Access
         }
 
         
-        public AccessManager(EFRepository<AccessRequest, string, AccessRequestDbContext> repository)
+        public AccessManager(IRepository<AccessRequest, string> repository)
         {
             _repository = repository;
             _cachedRequestsForUser = null;

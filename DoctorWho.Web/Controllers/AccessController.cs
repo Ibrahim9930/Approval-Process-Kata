@@ -17,12 +17,12 @@ namespace DoctorWho.Web.Controllers
 {
     [ApiController]
     [Route("api/InformationRequest")]
-    public class AccessController : DoctorWhoController<AccessRequest, string, AccessRequestDbContext>
+    public class AccessController : DoctorWhoController<AccessRequest, string>
     {
         private readonly AccessManager _accessManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public AccessController(EFRepository<AccessRequest, string, AccessRequestDbContext> repository, IMapper mapper,
+        public AccessController(IRepository<AccessRequest, string> repository, IMapper mapper,
             ILocatorTranslator<AccessRequest, string> locatorTranslator, AccessManager accessManager,
             UserManager<IdentityUser> userManager) : base(repository,
             mapper, locatorTranslator)
@@ -77,7 +77,8 @@ namespace DoctorWho.Web.Controllers
             if (!await UserExists(input.UserId))
                 return NotFound();
 
-            AddAndCommit(input);
+            string userId = GetUserId();
+            AddAndCommit(userId, input);
 
             var requestsForTheUser = _accessManager.GetRequestsForUser(input.UserId);
 

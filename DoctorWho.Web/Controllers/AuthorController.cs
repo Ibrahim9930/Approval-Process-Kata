@@ -11,11 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorWho.Web.Controllers
 {
     [Route("api/authors")]
-    public class AuthorController : DoctorWhoController<Author, string,DoctorWhoCoreDbContext>
+    public class AuthorController : DoctorWhoController<Author, string>
     {
         private readonly AccessManager _accessManager;
-        public AuthorController(EFRepository<Author, string,DoctorWhoCoreDbContext> repository, IMapper mapper,
-            ILocatorTranslator<Author, string> locatorTranslator, AccessManager accessManager) : base(repository, mapper, locatorTranslator)
+
+        public AuthorController(IRepository<Author, string> repository, IMapper mapper,
+            ILocatorTranslator<Author, string> locatorTranslator, AccessManager accessManager) : base(repository,
+            mapper, locatorTranslator)
         {
             _accessManager = accessManager;
         }
@@ -41,8 +43,8 @@ namespace DoctorWho.Web.Controllers
             }
 
             var authorEntity = GetEntity(authorName);
-            
-            UpdateAndCommit(input, authorName);
+
+            UpdateAndCommit(userId, input, authorName);
 
             var authorDto = GetRepresentation<Author, AuthorDto>(authorEntity);
             

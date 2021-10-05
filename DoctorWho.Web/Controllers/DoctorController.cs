@@ -15,11 +15,11 @@ namespace DoctorWho.Web.Controllers
 {
     [ApiController]
     [Route("api/doctors")]
-    public class DoctorController : DoctorWhoController<Doctor, int?,DoctorWhoCoreDbContext>
+    public class DoctorController : DoctorWhoController<Doctor, int?>
     {
         private ILocatorTranslator<DoctorForCreationWithPostDto, int?> PostInputLocatorTranslator { get; }
         private AccessManager _accessManager;
-        public DoctorController(EFRepository<Doctor, int?,DoctorWhoCoreDbContext> repository, IMapper mapper,
+        public DoctorController(IRepository<Doctor, int?> repository, IMapper mapper,
             ILocatorTranslator<Doctor, int?> locatorTranslator,
             ILocatorTranslator<DoctorForCreationWithPostDto, int?> postInputLocatorTranslator, AccessManager accessManager) : base(repository,
             mapper, locatorTranslator)
@@ -36,13 +36,11 @@ namespace DoctorWho.Web.Controllers
             
             if (!_accessManager.HasReadPrivileges(userId))
             {
-                var x = RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser","Access",new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
-                
-                return x;
             }
             
             
@@ -112,7 +110,7 @@ namespace DoctorWho.Web.Controllers
                 return Conflict();
             }
 
-            AddAndCommit(input);
+            AddAndCommit(userId,input);
             
             var doctorLocator = PostInputLocatorTranslator.GetLocator(input);
             var doctorDto =
@@ -141,14 +139,14 @@ namespace DoctorWho.Web.Controllers
             
             if (EntityExists(doctorNumber))
             {
-                UpdateAndCommit(input, doctorNumber);
+                UpdateAndCommit(userId,input, doctorNumber);
 
                 var doctorDto = GetRepresentation<Doctor, DoctorDto>(GetEntity(doctorNumber));
                 
                 return Ok(doctorDto);
             }
 
-            AddAndCommit(input, doctorNumber);
+            AddAndCommit(userId, input, doctorNumber);
 
             return CreatedAtRoute("GetDoctor", new {doctorNumber},
                 GetResource(doctorNumber));
