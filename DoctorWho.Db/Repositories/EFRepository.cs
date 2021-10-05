@@ -62,5 +62,10 @@ namespace DoctorWho.Db.Repositories
         {
             Context.SaveChanges();
         }
+        
+        public void CommitBy(string userId)
+        {
+            Context.SaveChangesWithMetadata(userId);
+        }
     }
 }

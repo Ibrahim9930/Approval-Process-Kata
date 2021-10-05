@@ -21,6 +21,7 @@ namespace DoctorWho.Db.Repositories
         public void Delete(TDomain deletedEntity);
 
         public void Commit();
-        
+
+        public void CommitBy(string userId);
     }
 }
