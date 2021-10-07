@@ -92,14 +92,19 @@ namespace DoctorWho.Web
             services.AddDbContext<AuthDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB_Auth"));
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
             });
             services.AddDbContext<DoctorWhoCoreDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB"));
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
             });
             services.AddDbContext<AccessRequestDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Docker_DB"));
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
 
