@@ -1,11 +1,12 @@
 using System;
 using System.Linq.Expressions;
+using DoctorWho.Db.DBModels;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Interfaces;
 
 namespace DoctorWho.Web.Locators
 {
-    public class DoctorLocator : ILocatorTranslator<Doctor,int?> , ILocatorPredicate<Doctor,int?>
+    public class DoctorLocator : ILocatorTranslator<Doctor,int?> , ILocatorPredicate<DoctorDbModel,int?>
     {
         public int? GetLocator(Doctor @object)
         {
@@ -17,7 +18,7 @@ namespace DoctorWho.Web.Locators
             @object.DoctorNumber = locator.GetValueOrDefault();
         }
 
-        public Expression<Func<Doctor, bool>> GetExpression(int? locator)
+        public Expression<Func<DoctorDbModel, bool>> GetExpression(int? locator)
         {
             return doc => doc.DoctorNumber == locator.Value;
         }
