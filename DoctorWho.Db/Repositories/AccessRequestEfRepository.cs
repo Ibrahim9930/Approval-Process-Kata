@@ -1,13 +1,18 @@
 using System.Collections.Generic;
+using AutoMapper;
 using DoctorWho.Db.Access;
+using DoctorWho.Db.DBModels;
 using DoctorWho.Db.Interfaces;
 
 namespace DoctorWho.Db.Repositories
 {
-    public class AccessRequestEfRepository<TLocator> : EFRepository<AccessRequest, TLocator,AccessRequestDbContext>
+    public class
+        AccessRequestEfRepository<TLocator> : EFRepository<AccessRequest, AccessRequestDbModel, TLocator,
+            AccessRequestDbContext>
     {
         public AccessRequestEfRepository(AccessRequestDbContext context,
-            ILocatorPredicate<AccessRequest, TLocator> locatorPredicate) : base(context, locatorPredicate)
+            ILocatorPredicate<AccessRequestDbModel, TLocator> locatorPredicate, IMapper mapper) : base(context,
+            locatorPredicate, mapper)
         {
         }
 
@@ -20,6 +25,5 @@ namespace DoctorWho.Db.Repositories
         {
             return GetAllEntities();
         }
-        
     }
 }

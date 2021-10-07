@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DoctorWho.Db.Domain;
 using Bogus;
+using DoctorWho.Db.DBModels;
 
 namespace DoctorWho.Db.Utilities
 {
@@ -13,14 +14,18 @@ namespace DoctorWho.Db.Utilities
             "C:\\Users\\IbrhaimMasri\\Documents\\Foothill Internship\\EF\\DoctorWho\\fakes";
 
         private static IEntityWriter _entityWriter = new FakeDataReaderWriter();
+
         public static string GetFilePathForTypeFakes<T>() where T : class
         {
-            return $"{FAKES_PATH}/{typeof(T).BaseType?.Name}.json";
+            var domainType = DomainConvertor.GetCorrespondingDomainType(typeof(T));
+            return $"{FAKES_PATH}/{domainType.Name}.json";
         }
 
         public static string GetFilePathForJoinTypeFakes<TEntityType1, TEntityType2>()
         {
-            return $"{FAKES_PATH}/{typeof(TEntityType1).Name}_{typeof(TEntityType2).Name}.json";
+            var entity1DomainType = DomainConvertor.GetCorrespondingDomainType(typeof(TEntityType1));
+            var entity2DomainType = DomainConvertor.GetCorrespondingDomainType(typeof(TEntityType2));
+            return $"{FAKES_PATH}/{entity1DomainType.Name}_{entity2DomainType.Name}.json";
         }
 
         public static void GenerateData(int itemCount)
@@ -71,9 +76,8 @@ namespace DoctorWho.Db.Utilities
                 });
             }
 
-            _entityWriter.WriteFakeJoinEntities<Enemy,Episode>(episodeEnemyRelations);
-            _entityWriter.WriteFakeJoinEntities<Companion,Episode>(episodeCompanionRelations);
+            _entityWriter.WriteFakeJoinEntities<Enemy, Episode>(episodeEnemyRelations);
+            _entityWriter.WriteFakeJoinEntities<Companion, Episode>(episodeCompanionRelations);
         }
-        
     }
 }
