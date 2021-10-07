@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DoctorWho.Db;
 using DoctorWho.Db.Access;
 using DoctorWho.Db.Repositories;
 
@@ -40,13 +39,14 @@ namespace DoctorWho.Web.Access
                    HasApprovedRequestWithLevel(userId, AccessLevel.Redacted);
         }
         
-        public void ApproveRequest(int requestId)
+        public void ApproveRequest(int requestId,string userId)
         {
             var request = _repository.GetById(requestId);
 
             request.Status = ApprovalStatus.Approved;
             
-            _repository.Commit();
+            _repository.Update(request);
+            _repository.CommitBy(userId);
         }
 
         public bool RequestExists(int requestId)

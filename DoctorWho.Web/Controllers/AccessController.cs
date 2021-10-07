@@ -104,7 +104,7 @@ namespace DoctorWho.Web.Controllers
             if (!_accessManager.RequestExists(requestId))
                 return NotFound();
             
-            _accessManager.ApproveRequest(requestId);
+            _accessManager.ApproveRequest(requestId,userId);
 
             return Ok();
         }
