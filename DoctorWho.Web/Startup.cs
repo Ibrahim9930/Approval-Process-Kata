@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DoctorWho.Db;
 using DoctorWho.Db.Access;
 using DoctorWho.Db.Authentication;
+using DoctorWho.Db.DBModels;
 using DoctorWho.Db.Domain;
 using DoctorWho.Db.Interfaces;
 using DoctorWho.Db.Repositories;
@@ -103,13 +104,13 @@ namespace DoctorWho.Web
 
 
             services.AddSingleton<ILocatorTranslator<AccessRequest, string>, AccessRequestLocator>();
-            services.AddSingleton<ILocatorPredicate<AccessRequest, string>, AccessRequestLocator>();
+            services.AddSingleton<ILocatorPredicate<AccessRequestDbModel, string>, AccessRequestLocator>();
             services.AddSingleton<ILocatorTranslator<Doctor, int?>, DoctorLocator>();
-            services.AddSingleton<ILocatorPredicate<Doctor, int?>, DoctorLocator>();
+            services.AddSingleton<ILocatorPredicate<DoctorDbModel, int?>, DoctorLocator>();
             services.AddSingleton<ILocatorTranslator<Episode, string>, EpisodeLocator>();
-            services.AddSingleton<ILocatorPredicate<Episode, string>, EpisodeLocator>();
+            services.AddSingleton<ILocatorPredicate<EpisodeDbModel, string>, EpisodeLocator>();
             services.AddSingleton<ILocatorTranslator<Author, string>, AuthorLocator>();
-            services.AddSingleton<ILocatorPredicate<Author, string>, AuthorLocator>();
+            services.AddSingleton<ILocatorPredicate<AuthorDbModel, string>, AuthorLocator>();
 
             services.AddSingleton<ILocatorTranslator<DoctorForCreationWithPostDto, int?>, DoctorPostDtoLocator>();
             services.AddSingleton<ILocatorTranslator<EpisodeForCreationWithPostDto, string>, EpisodePostDtoLocator>();
