@@ -53,8 +53,8 @@ namespace DoctorWho.Db.Utilities
             string fakesFilePath = FakeDataGenerator.GetFilePathForJoinTypeFakes<TEntityType1, TEntityType2>();
 
             string listJson = ReadFile(fakesFilePath);
-            List<IDictionary<string, int>> entities =
-                JsonSerializer.Deserialize<List<IDictionary<string, int>>>(listJson);
+            List<IDictionary<string, object>> entities =
+                JsonSerializer.Deserialize<List<IDictionary<string, object>>>(listJson);
             return entities;
         }
 

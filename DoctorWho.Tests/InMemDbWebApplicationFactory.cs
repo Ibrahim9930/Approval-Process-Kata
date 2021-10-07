@@ -26,7 +26,7 @@ namespace DoctorWho.Tests
                 {
                     var opt = new DbContextOptionsBuilder<TDbContext>();
                     opt.UseInMemoryDatabase("Testing Db");
-
+                    opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                     return (TDbContext)Activator.CreateInstance(typeof(TDbContext), 
                         BindingFlags.CreateInstance |
                         BindingFlags.Public |

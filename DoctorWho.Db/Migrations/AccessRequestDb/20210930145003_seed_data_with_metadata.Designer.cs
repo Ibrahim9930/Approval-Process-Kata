@@ -4,14 +4,16 @@ using DoctorWho.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DoctorWho.Db.Migrations.AccessRequestDb
 {
     [DbContext(typeof(AccessRequestDbContext))]
-    partial class AccessRequestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210930145003_seed_data_with_metadata")]
+    partial class seed_data_with_metadata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace DoctorWho.Db.Migrations.AccessRequestDb
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.AccessRequestDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Access.AccessRequest", b =>
                 {
                     b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
@@ -33,7 +35,9 @@ namespace DoctorWho.Db.Migrations.AccessRequestDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -42,7 +46,9 @@ namespace DoctorWho.Db.Migrations.AccessRequestDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

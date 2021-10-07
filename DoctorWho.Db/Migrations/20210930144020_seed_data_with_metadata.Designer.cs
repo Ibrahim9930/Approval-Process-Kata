@@ -4,14 +4,16 @@ using DoctorWho.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DoctorWho.Db.Migrations
 {
     [DbContext(typeof(DoctorWhoCoreDbContext))]
-    partial class DoctorWhoCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210930144020_seed_data_with_metadata")]
+    partial class seed_data_with_metadata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,149 @@ namespace DoctorWho.Db.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.AuthorDbModel", b =>
+            modelBuilder.Entity("CompanionEpisode", b =>
+                {
+                    b.Property<int>("EpisodeCompanionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanionsCompanionId")
+                        .HasColumnType("int")
+                        .HasColumnName("CompanionId");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.Property<int>("EpisodesEpisodeId")
+                        .HasColumnType("int")
+                        .HasColumnName("EpisodeId");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.HasKey("EpisodeCompanionId");
+
+                    b.HasIndex("CompanionsCompanionId");
+
+                    b.HasIndex("EpisodesEpisodeId");
+
+                    b.ToTable("EpisodeCompanion");
+
+                    b.HasData(
+                        new
+                        {
+                            EpisodeCompanionId = 1,
+                            CompanionsCompanionId = 1,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2021, 1, 23, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "modify-user",
+                            ModifiedOn = new DateTime(2021, 9, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 2,
+                            CompanionsCompanionId = 8,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2019, 11, 23, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 8,
+                            ModifiedBy = "modify-user",
+                            ModifiedOn = new DateTime(2020, 9, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 3,
+                            CompanionsCompanionId = 4,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2008, 11, 23, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 5,
+                            ModifiedBy = "modify-user",
+                            ModifiedOn = new DateTime(2020, 9, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 4,
+                            CompanionsCompanionId = 6,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2015, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 6,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2018, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 5,
+                            CompanionsCompanionId = 4,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2003, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2015, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 6,
+                            CompanionsCompanionId = 4,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2020, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 10,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 7,
+                            CompanionsCompanionId = 4,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2012, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 8,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 8,
+                            CompanionsCompanionId = 7,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2021, 1, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 3,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 9,
+                            CompanionsCompanionId = 3,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2020, 1, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 3,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        },
+                        new
+                        {
+                            EpisodeCompanionId = 10,
+                            CompanionsCompanionId = 2,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2003, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
+                            EpisodesEpisodeId = 8,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2004, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
+                        });
+                });
+
+            modelBuilder.Entity("DoctorWho.Db.Domain.Author", b =>
                 {
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
@@ -33,13 +177,17 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.HasKey("AuthorId");
 
@@ -138,7 +286,7 @@ namespace DoctorWho.Db.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.CompanionDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Companion", b =>
                 {
                     b.Property<int>("CompanionId")
                         .ValueGeneratedOnAdd()
@@ -152,13 +300,17 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<int>("WhoPlayed")
                         .HasColumnType("int");
@@ -270,7 +422,7 @@ namespace DoctorWho.Db.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.DoctorDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Doctor", b =>
                 {
                     b.Property<int>("DoctorId")
                         .ValueGeneratedOnAdd()
@@ -284,7 +436,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("DoctorName")
                         .HasColumnType("nvarchar(max)");
@@ -302,7 +456,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.HasKey("DoctorId");
 
@@ -441,7 +597,7 @@ namespace DoctorWho.Db.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.EnemyDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Enemy", b =>
                 {
                     b.Property<int>("EnemyId")
                         .ValueGeneratedOnAdd()
@@ -452,7 +608,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -464,7 +622,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.HasKey("EnemyId");
 
@@ -573,7 +733,7 @@ namespace DoctorWho.Db.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.EpisodeDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Episode", b =>
                 {
                     b.Property<int>("EpisodeId")
                         .ValueGeneratedOnAdd()
@@ -587,7 +747,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
@@ -605,7 +767,9 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -796,6 +960,14 @@ namespace DoctorWho.Db.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Companions");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
                     b.Property<string>("DoctorName")
                         .HasColumnType("nvarchar(max)");
 
@@ -815,6 +987,14 @@ namespace DoctorWho.Db.Migrations
                     b.Property<string>("EpisodeType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
@@ -827,98 +1007,20 @@ namespace DoctorWho.Db.Migrations
                     b.ToView("viewEpisodes");
                 });
 
-            modelBuilder.Entity("EpisodeCompanion", b =>
-                {
-                    b.Property<int>("EpisodeCompanionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanionsCompanionId")
-                        .HasColumnType("int")
-                        .HasColumnName("CompanionId");
-
-                    b.Property<int>("EpisodesEpisodeId")
-                        .HasColumnType("int")
-                        .HasColumnName("EpisodeId");
-
-                    b.HasKey("EpisodeCompanionId");
-
-                    b.HasIndex("CompanionsCompanionId");
-
-                    b.HasIndex("EpisodesEpisodeId");
-
-                    b.ToTable("EpisodeCompanion");
-
-                    b.HasData(
-                        new
-                        {
-                            EpisodeCompanionId = 1,
-                            CompanionsCompanionId = 1,
-                            EpisodesEpisodeId = 9
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 2,
-                            CompanionsCompanionId = 8,
-                            EpisodesEpisodeId = 8
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 3,
-                            CompanionsCompanionId = 4,
-                            EpisodesEpisodeId = 5
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 4,
-                            CompanionsCompanionId = 6,
-                            EpisodesEpisodeId = 6
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 5,
-                            CompanionsCompanionId = 4,
-                            EpisodesEpisodeId = 9
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 6,
-                            CompanionsCompanionId = 4,
-                            EpisodesEpisodeId = 10
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 7,
-                            CompanionsCompanionId = 4,
-                            EpisodesEpisodeId = 8
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 8,
-                            CompanionsCompanionId = 7,
-                            EpisodesEpisodeId = 3
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 9,
-                            CompanionsCompanionId = 3,
-                            EpisodesEpisodeId = 3
-                        },
-                        new
-                        {
-                            EpisodeCompanionId = 10,
-                            CompanionsCompanionId = 2,
-                            EpisodesEpisodeId = 8
-                        });
-                });
-
-            modelBuilder.Entity("EpisodeEnemy", b =>
+            modelBuilder.Entity("EnemyEpisode", b =>
                 {
                     b.Property<int>("EpisodeEnemyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<int>("EnemiesEnemyId")
                         .HasColumnType("int")
@@ -927,6 +1029,14 @@ namespace DoctorWho.Db.Migrations
                     b.Property<int>("EpisodesEpisodeId")
                         .HasColumnType("int")
                         .HasColumnName("EpisodeId");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.HasKey("EpisodeEnemyId");
 
@@ -940,74 +1050,129 @@ namespace DoctorWho.Db.Migrations
                         new
                         {
                             EpisodeEnemyId = 1,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2019, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 10,
-                            EpisodesEpisodeId = 9
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 2,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2000, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 3,
-                            EpisodesEpisodeId = 4
+                            EpisodesEpisodeId = 4,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 3,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2002, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 1,
-                            EpisodesEpisodeId = 10
+                            EpisodesEpisodeId = 10,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2003, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 4,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2010, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 3,
-                            EpisodesEpisodeId = 9
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 5,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2020, 9, 2, 16, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 5,
-                            EpisodesEpisodeId = 4
+                            EpisodesEpisodeId = 4,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 6,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2001, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 7,
-                            EpisodesEpisodeId = 9
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2021, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 7,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2012, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 8,
-                            EpisodesEpisodeId = 8
+                            EpisodesEpisodeId = 8,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2013, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 8,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2015, 1, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 9,
-                            EpisodesEpisodeId = 10
+                            EpisodesEpisodeId = 10,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2015, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 9,
+                            CreatedBy = "admin",
+                            CreatedOn = new DateTime(2013, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 3,
-                            EpisodesEpisodeId = 3
+                            EpisodesEpisodeId = 3,
+                            ModifiedBy = "modify-user",
+                            ModifiedOn = new DateTime(2018, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         },
                         new
                         {
                             EpisodeEnemyId = 10,
+                            CreatedBy = "modify-user",
+                            CreatedOn = new DateTime(2012, 11, 2, 15, 48, 45, 723, DateTimeKind.Local).AddTicks(7137),
                             EnemiesEnemyId = 2,
-                            EpisodesEpisodeId = 9
+                            EpisodesEpisodeId = 9,
+                            ModifiedBy = "admin",
+                            ModifiedOn = new DateTime(2013, 7, 28, 20, 48, 50, 28, DateTimeKind.Local).AddTicks(2904)
                         });
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.EpisodeDbModel", b =>
+            modelBuilder.Entity("CompanionEpisode", b =>
                 {
-                    b.HasOne("DoctorWho.Db.DBModels.AuthorDbModel", "Author")
+                    b.HasOne("DoctorWho.Db.Domain.Companion", null)
+                        .WithMany()
+                        .HasForeignKey("CompanionsCompanionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DoctorWho.Db.Domain.Episode", null)
+                        .WithMany()
+                        .HasForeignKey("EpisodesEpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DoctorWho.Db.Domain.Episode", b =>
+                {
+                    b.HasOne("DoctorWho.Db.Domain.Author", "Author")
                         .WithMany("Episodes")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoctorWho.Db.DBModels.DoctorDbModel", "Doctor")
+                    b.HasOne("DoctorWho.Db.Domain.Doctor", "Doctor")
                         .WithMany("Episodes")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1018,42 +1183,27 @@ namespace DoctorWho.Db.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("EpisodeCompanion", b =>
+            modelBuilder.Entity("EnemyEpisode", b =>
                 {
-                    b.HasOne("DoctorWho.Db.DBModels.CompanionDbModel", null)
-                        .WithMany()
-                        .HasForeignKey("CompanionsCompanionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DoctorWho.Db.DBModels.EpisodeDbModel", null)
-                        .WithMany()
-                        .HasForeignKey("EpisodesEpisodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EpisodeEnemy", b =>
-                {
-                    b.HasOne("DoctorWho.Db.DBModels.EnemyDbModel", null)
+                    b.HasOne("DoctorWho.Db.Domain.Enemy", null)
                         .WithMany()
                         .HasForeignKey("EnemiesEnemyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoctorWho.Db.DBModels.EpisodeDbModel", null)
+                    b.HasOne("DoctorWho.Db.Domain.Episode", null)
                         .WithMany()
                         .HasForeignKey("EpisodesEpisodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.AuthorDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Author", b =>
                 {
                     b.Navigation("Episodes");
                 });
 
-            modelBuilder.Entity("DoctorWho.Db.DBModels.DoctorDbModel", b =>
+            modelBuilder.Entity("DoctorWho.Db.Domain.Doctor", b =>
                 {
                     b.Navigation("Episodes");
                 });

@@ -13,15 +13,17 @@ namespace DoctorWho.Web.Controllers
 {
     [ApiController]
     [Route("api/episodes")]
-    public class EpisodeController : DoctorWhoController<Episode, string,DoctorWhoCoreDbContext>
+    public class EpisodeController : DoctorWhoController<Episode, string>
     {
         private ILocatorTranslator<EpisodeForCreationWithPostDto, string> PostInputLocatorTranslator { get; }
 
         private EpisodeEfRepository<string> EpisodeRepository => (EpisodeEfRepository<string>) Repository;
         private readonly AccessManager _accessManager;
-        public EpisodeController(EFRepository<Episode, string,DoctorWhoCoreDbContext> repository, IMapper mapper,
+
+        public EpisodeController(IRepository<Episode, string> repository, IMapper mapper,
             ILocatorTranslator<Episode, string> locatorTranslator,
-            ILocatorTranslator<EpisodeForCreationWithPostDto, string> postInputLocatorTranslator, AccessManager accessManager) : base(
+            ILocatorTranslator<EpisodeForCreationWithPostDto, string> postInputLocatorTranslator,
+            AccessManager accessManager) : base(
             repository,
             mapper,
             locatorTranslator)
@@ -34,16 +36,16 @@ namespace DoctorWho.Web.Controllers
         public ActionResult<IEnumerable<Episode>> GetAllResources()
         {
             var userId = GetUserId();
-            
+
             if (!_accessManager.HasReadPrivileges(userId))
             {
-                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser", "Access", new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
             }
-            
+
             var episodeEntities = Repository.GetAllEntities();
 
             if (_accessManager.AccessIsRedacted(userId))
@@ -53,7 +55,7 @@ namespace DoctorWho.Web.Controllers
                     episode.Redact();
                 }
             }
-            
+
             var output = GetRepresentation<IEnumerable<Episode>, IEnumerable<EpisodeDto>>(episodeEntities);
 
             return Ok(output);
@@ -64,26 +66,26 @@ namespace DoctorWho.Web.Controllers
         public ActionResult<Episode> GetResource(string episodeLocator)
         {
             var userId = GetUserId();
-            
+
             if (!_accessManager.HasReadPrivileges(userId))
             {
-                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser", "Access", new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
             }
-            
+
             var episodeEntity = GetEntity(episodeLocator);
 
             if (episodeEntity == null)
                 return NotFound();
-            
+
             if (_accessManager.AccessIsRedacted(userId))
             {
                 episodeEntity.Redact();
             }
-            
+
             var output = GetRepresentation<Episode, EpisodeDto>(episodeEntity);
             return Ok(output);
         }
@@ -92,22 +94,22 @@ namespace DoctorWho.Web.Controllers
         public ActionResult<EpisodeDto> CreateEpisode(EpisodeForCreationWithPostDto input)
         {
             string userId = GetUserId();
-            
+
             if (!_accessManager.HasWritePrivileges(userId))
             {
-                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser", "Access", new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
             }
-            
+
             if (EntityExists(PostInputLocatorTranslator.GetLocator(input)))
             {
                 return Conflict();
             }
 
-            AddAndCommit(input);
+            AddAndCommit(userId, input);
 
             return CreatedAtRoute("GetEpisode", new {episodeLocator = PostInputLocatorTranslator.GetLocator(input)},
                 GetResource(PostInputLocatorTranslator.GetLocator(input)));
@@ -119,16 +121,16 @@ namespace DoctorWho.Web.Controllers
             CompanionForCreationDto companionForCreation)
         {
             string userId = GetUserId();
-            
+
             if (!_accessManager.HasWritePrivileges(userId))
             {
-                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser", "Access", new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
             }
-            
+
             Companion companion = GetRepresentation<CompanionForCreationDto, Companion>(companionForCreation);
 
             if (!EntityExists(episodeLocator))
@@ -141,23 +143,23 @@ namespace DoctorWho.Web.Controllers
 
             return Ok();
         }
-        
+
         [HttpOptions]
         [Route("{episodeLocator}/addEnemy")]
         public ActionResult AddEnemyToEpisode(string episodeLocator,
             EnemyForCreationDto enemyForCreation)
         {
             string userId = GetUserId();
-            
+
             if (!_accessManager.HasWritePrivileges(userId))
             {
-                return RedirectToAction("GetAllRequestsForAUser","Access",new
+                return RedirectToAction("GetAllRequestsForAUser", "Access", new
                 {
                     userId,
                     Access = AccessLevel.Unknown,
                 });
             }
-            
+
             Enemy enemy = GetRepresentation<EnemyForCreationDto, Enemy>(enemyForCreation);
 
             if (!EntityExists(episodeLocator))

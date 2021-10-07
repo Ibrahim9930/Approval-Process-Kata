@@ -3,20 +3,25 @@ using System.Collections.Generic;
 
 namespace DoctorWho.Db.Repositories
 {
-    interface IRepository<T>
+    public interface IRepository<TDomain, TLocator>
     {
-        public T GetById(int id);
-        public T GetByIdWithRelatedData(int id);
-        public IEnumerable<T> GetAllEntities();
-        public IEnumerable<T> GetAllEntitiesWithRelatedData();
-        
-        public void Add(T newEntity);
+        public TDomain GetById(int id);
+        public TDomain GetByIdWithRelatedData(int id);
+        public IEnumerable<TDomain> GetAllEntities();
+        public IEnumerable<TDomain> GetAllEntitiesWithRelatedData();
 
-        public void Update(T updatedEntity);
+        public TDomain GetByLocator(TLocator locator);
 
-        public void Delete(T deletedEntity);
+        public IEnumerable<TDomain> GetAllWithLocator(TLocator locator);
+
+        public void Add(TDomain newEntity);
+
+        public void Update(TDomain updatedEntity);
+
+        public void Delete(TDomain deletedEntity);
 
         public void Commit();
-        
+
+        public void CommitBy(string userId);
     }
 }

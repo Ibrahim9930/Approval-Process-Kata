@@ -69,7 +69,7 @@ namespace DoctorWho.Tests.AccessControllerApiTests
             
             await client.SendAsync(request);
 
-            var response = await client.GetAsync("/api/InformationRequest/approve-user");
+            var response = await client.GetAsync("/api/InformationRequest/approved-user");
             var accessRequests = await ResponseParser.GetObjectFromResponse<List<AccessRequestWithIdDto>>(response);
             var approvedRequest = accessRequests[0];
             

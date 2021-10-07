@@ -10,16 +10,16 @@ using Microsoft.EntityFrameworkCore;
 namespace DoctorWho.Web.Controllers
 {
     [ApiController]
-    public class DoctorWhoController<TEntity, TLocator,TDbContext> : Controller
-        where TEntity : class where TDbContext : DbContext
+    public class DoctorWhoController<TEntity, TLocator> : Controller
+        where TEntity : class
     {
-        protected EFRepository<TEntity, TLocator,TDbContext> Repository { get; }
+        protected IRepository<TEntity, TLocator> Repository { get; }
         private IMapper Mapper { get; }
         private TEntity CachedEntity { get; set; }
 
         protected ILocatorTranslator<TEntity, TLocator> LocatorTranslator { get; }
 
-        public DoctorWhoController(EFRepository<TEntity, TLocator,TDbContext> repository, IMapper mapper,
+        public DoctorWhoController(IRepository<TEntity, TLocator> repository, IMapper mapper,
             ILocatorTranslator<TEntity, TLocator> locatorTranslator)
         {
             Repository = repository;
@@ -32,28 +32,28 @@ namespace DoctorWho.Web.Controllers
             return Mapper.Map<TOutput>(doctorInputDto);
         }
 
-        protected void AddAndCommit<TInput>(TInput inputDto, TLocator locator = default)
+        protected void AddAndCommit<TInput>(string userId, TInput inputDto, TLocator locator = default)
         {
             TEntity entity = Mapper.Map<TEntity>(inputDto);
 
             if (locator != null)
             {
-                LocatorTranslator.SetLocator(entity,locator);
+                LocatorTranslator.SetLocator(entity, locator);
             }
 
             Repository.Add(entity);
-            Repository.Commit();
+            Repository.CommitBy(userId);
 
             CachedEntity = entity;
         }
 
-        protected void UpdateAndCommit<TInput>(TInput inputDto, TLocator locator)
+        protected void UpdateAndCommit<TInput>(string userId, TInput inputDto, TLocator locator)
         {
             TEntity entity = GetEntity(locator);
             Mapper.Map(inputDto, entity);
 
             Repository.Update(entity);
-            Repository.Commit();
+            Repository.CommitBy(userId);
 
             CachedEntity = entity;
         }
@@ -80,7 +80,7 @@ namespace DoctorWho.Web.Controllers
 
             return CachedEntity;
         }
-        
+
         protected string GetUserId()
         {
             return User.FindFirst(ClaimTypes.Name)?.Value;
